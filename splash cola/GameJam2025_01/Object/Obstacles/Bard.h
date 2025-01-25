@@ -10,6 +10,7 @@ private:
 	int img;            // 画像データ
 	bool is_hit;        // 泡に当たったか？
 	double extrate;     // 画像の拡大率
+	bool left_flg;      // 左に飛んでいくか？
 
 public:
 	// コンストラクタ
