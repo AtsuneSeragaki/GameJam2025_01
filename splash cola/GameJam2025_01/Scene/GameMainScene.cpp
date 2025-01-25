@@ -76,8 +76,9 @@ GameMainScene::GameMainScene()
 	amount_y = 0;
 
 	total_fps_count = 0;
-
-	hit_num = 0;
+	
+	fade_mode = 1;		// 明るくなる
+	fade_alpha = 255;
 }
 
 
@@ -108,7 +109,6 @@ void GameMainScene::Initialize()
 
 	play_count_down_se = true;
 	total_fps_count = 0;
-	hit_num = 0;
 }
 
 void GameMainScene::Update()
@@ -119,20 +119,28 @@ void GameMainScene::Update()
 		PlaySoundMem(in_game_bgm, DX_PLAYTYPE_LOOP);
 	}
 
-	switch (game_state)
+	if (fade_mode == 0)
 	{
-	case GameState::start:
-		InStartUpdate();
-		break;
-	case GameState::in_game:
-		InGameUpdate();
-		break;
-	case GameState::in_fly:
-		InFlyUpdate();
-		break;
-	case GameState::result:
-		InGameResultUpdate();
-		break;
+		switch (game_state)
+		{
+		case GameState::start:
+			InStartUpdate();
+			break;
+		case GameState::in_game:
+			InGameUpdate();
+			break;
+		case GameState::in_fly:
+			InFlyUpdate();
+			break;
+		case GameState::result:
+			InGameResultUpdate();
+			break;
+		}
+	}
+	else
+	{
+		// フェード更新処理
+		fadeUpdate();
 	}
 }
 
@@ -229,6 +237,14 @@ void GameMainScene::Draw() const
 		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
 
 		break;
+	}
+
+	if (fade_mode != 0)
+	{
+		// フェードをつける
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, fade_alpha);
+		DrawBox(0, 0, 640, 480, 0x000000, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}
 }
 
@@ -351,13 +367,12 @@ void GameMainScene::InFlyUpdate()
 			background_y += 10.0f;
 		}
 		
-		amount_y += 50;
+		amount_y += 30;
 	}
 
 	if (amount_y % 10 == 0 && bard == NULL)
 	{
-		bard = new Bard(hit_num);
-		hit_num++;
+		bard = new Bard();
 	}
 	else if(bard != NULL)
 	{
@@ -406,7 +421,7 @@ void GameMainScene::ColaBubbleUpdate()
 			std::vector<int> tmp;
 			tmp = resource->GetImages("Resource/Images/GameMain/background2.png");
 			background_img = tmp[0];*/
-			bubble_height = bar->GetCntBarShake() * 50.0f;
+			bubble_height = bar->GetCntBarShake() * 30.0f;
 			game_state = GameState::in_fly;
 		}
 	}
@@ -437,10 +452,8 @@ void GameMainScene::RetryButtonUpdate()
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
-			// 初期化処理
-			Initialize();
-			// ゲーム開始
-			game_state = GameState::start;
+			// フェードで暗くする
+			fade_mode = 2;
 		}
 	}
 	else
@@ -463,13 +476,9 @@ void GameMainScene::TitleButtonUpdate()
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
-			//end_flg = true;
-
-			// 初期化処理
-			Initialize();
 			start_flg = false;
-			// ゲームスタート状態へ
-			game_state = GameState::start;
+			// フェードで暗くする
+			fade_mode = 2;
 		}
 	}
 	else
@@ -524,5 +533,41 @@ void GameMainScene::EndButtonUpdate()
 	{
 		// ボタンの色変更
 		right_button_color = 0xffffff;
+	}
+}
+
+// フェード更新処理
+void GameMainScene::fadeUpdate()
+{
+	if (fade_mode == 1)
+	{
+		if (fade_alpha > 0)
+		{
+			// 明るくなる
+			fade_alpha -= 10;
+		}
+		else
+		{
+			fade_alpha = 0;
+			fade_mode = 0;
+		}
+	}
+	else if (fade_mode == 2)
+	{
+		if (fade_alpha < 255)
+		{
+			// 暗くなる
+			fade_alpha += 10;
+		}
+		else
+		{
+			// 初期化処理
+			Initialize();
+			// ゲームスタート状態へ
+			game_state = GameState::start;
+
+			fade_alpha = 255;
+			fade_mode = 1;
+		}
 	}
 }
