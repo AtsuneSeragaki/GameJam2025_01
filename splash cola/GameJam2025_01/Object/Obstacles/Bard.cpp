@@ -9,6 +9,7 @@ Bard::Bard()
 	location.x = 320.0f;
 	location.y = 0.0f;
 	angle = 0.0f;
+	is_hit = false;
 
 	ResourceManager* resource = ResourceManager::GetInstance();
 	std::vector<int> tmp;
@@ -25,23 +26,32 @@ void Bard::Initialize()
 	location.x = 320.0f;
 	location.y = 200.0f;
 	angle = 0.0f;
+	is_hit = false;
 
-	/*ResourceManager* resource = ResourceManager::GetInstance();
+	ResourceManager* resource = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = resource->GetImages("Resources/Images/GameMain/bard.png");
-	img = tmp[0];*/
+	tmp = resource->GetImages("Resource/Images/GameMain/bard.png");
+	img = tmp[0];
 }
 
 void Bard::Update()
 {
-	if (location.y >= 150.0f)
+	if (is_hit == true)
 	{
 		location.x += 10.0f;
+		location.y -= 3.0f;
 		angle += 1.0f;
 	}
 	else
 	{
-		location.y += 7.0f;
+		if (location.y >= 150.0f)
+		{
+			is_hit = true;
+		}
+		else
+		{
+			location.y += 7.0f;
+		}
 	}
 }
 
