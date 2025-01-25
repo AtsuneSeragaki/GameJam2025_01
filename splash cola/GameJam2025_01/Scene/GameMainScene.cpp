@@ -8,7 +8,7 @@
 
 GameMainScene::GameMainScene()
 {
-	game_state = GameState::result;
+	game_state = GameState::start;
 
 	fps_count = 0;
 	start_count = 3;
