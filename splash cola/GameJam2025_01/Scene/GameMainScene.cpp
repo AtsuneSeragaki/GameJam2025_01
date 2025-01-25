@@ -51,7 +51,6 @@ GameMainScene::GameMainScene()
 	explanation_font = CreateFontToHandle(NULL, 70, 9);
 	start_font = CreateFontToHandle(NULL, 180, 9, DX_FONTTYPE_EDGE);
 	count_down_font = CreateFontToHandle(NULL, 300, 9, DX_FONTTYPE_EDGE);
-}
 
 	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
 	for (int i = 0; i <= 1; i++)
