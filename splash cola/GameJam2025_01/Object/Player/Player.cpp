@@ -11,7 +11,7 @@ Player::Player()
 {
 	// 変数の初期化
 	location.x = 640.0f;
-	location.y = 250.0f;
+	location.y = 0.0f;
 	angle = 0.0f;
 
 	// 画像データ格納
@@ -19,6 +19,16 @@ Player::Player()
 	std::vector<int> tmp;
 	tmp = resource->GetImages("Resource/Cola/kan.png");
 	img = tmp[0];
+	tmp = resource->GetImages("Resource/Cola/kan2.png");
+	img_cola[0] = tmp[0];
+	tmp = resource->GetImages("Resource/Cola/kan3.png");
+	img_cola[1] = tmp[0];
+	tmp = resource->GetImages("Resource/Cola/kan4.png");
+	img_cola[2] = tmp[0];
+	cola_num = 0;
+	cola_cnt = -10;
+
+	hand_down = 0.0f;
 
 	angle = 0.0;
 }
@@ -60,4 +70,23 @@ void Player::Draw()
 {
 	// プレイヤー画像描画
 	DrawRotaGraph2F(location.x, 312.0f, 640.0f,150.0f,1.0, PI / 180 * angle, img, TRUE, 0);
+}
+
+void Player::ResultUpdate()
+{
+	cola_cnt += 1;
+	if (cola_cnt > 7&&cola_num<2)
+	{
+		cola_cnt = 0;
+		cola_num += 1;
+	}
+
+
+}
+
+void Player::ResultDraw()
+{
+
+	// プレイヤー画像描画
+	DrawRotaGraph2F(location.x, 150.0f+hand_down, 640.0f, 150.0f, 1.0, 0.0, img_cola[cola_num], TRUE, 0);
 }

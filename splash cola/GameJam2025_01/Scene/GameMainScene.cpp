@@ -4,6 +4,7 @@
 #include "../Object/CheckMouse/Bar.h"
 #include "../Object/Player/Player.h"
 
+#include "../Utility/ResourceManager.h"
 #include "../Utility/InputManager.h"
 #include "../Utility/ResourceManager.h"
 #include <vector>
@@ -50,7 +51,23 @@ GameMainScene::GameMainScene()
 	explanation_font = CreateFontToHandle(NULL, 70, 9);
 	start_font = CreateFontToHandle(NULL, 180, 9, DX_FONTTYPE_EDGE);
 	count_down_font = CreateFontToHandle(NULL, 300, 9, DX_FONTTYPE_EDGE);
+
+	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
+	for (int i = 0; i <= 1; i++)
+	{
+		bubble_img[i] = tmp[i];
+	}
+
+	//320.0f, 150.f
+	bubble_location.x = 280.0f;
+	bubble_location.y = 180.0f;
+	bubble_num = 0;
+	bubble_cnt = 0;
+	up_bubble = 0.0f;
+
+	score = 0;
 }
+
 
 GameMainScene::~GameMainScene()
 {
@@ -92,6 +109,9 @@ void GameMainScene::Update()
 		break;
 	case GameState::in_game:
 		InGameUpdate();
+		break;
+	case GameState::in_fly:
+		InFlyUpdate();
 		break;
 	case GameState::result:
 		InGameResultUpdate();
@@ -144,9 +164,27 @@ void GameMainScene::Draw() const
 		// 制限時間の描画
 		DrawFormatString(0, 200, 0x000000, "timer: %d", timer);
 		bar->Draw();
-		player->Draw();
-		break;
+		if (timer > 0) {
+			player->Draw();
+		}
+		else {
+			int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2) * -100;
+			// 制限時間の描画
+			DrawFormatString(0, 100, 0x000000, "score: %d",score_height);
 
+			DrawExtendGraph(bubble_location.x, bubble_location.y, 360.0f, 180.0f, bubble_img[bubble_num], TRUE);
+			player->ResultDraw();
+		}
+		break;
+	case GameState::in_fly:
+		DrawGraphF(0.0f, background_y, background_img, TRUE);
+		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
+
+		DrawExtendGraph(bubble_location.x-30.0f,480.0f -up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
+		// 制限時間の描画
+		DrawFormatString(0, 100, 0x000000, "score: %f", (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2));
+
+		break;
 	case GameState::result:
 		// リトライ・タイトルボタンの描画
 		DrawBox(150, 400, 250, 450, left_button_color, TRUE);
@@ -159,6 +197,8 @@ void GameMainScene::Draw() const
 		DrawFormatString(0, 460, 0xffffff, "BGM/SE");
 		DrawFormatString(100, 460, 0xffffff, "MusMus");
 		DrawFormatString(300, 460, 0xffffff, "pokettosaundo");
+
+		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
 
 		break;
 	}
@@ -239,22 +279,40 @@ void GameMainScene::InGameUpdate()
 		fps_count = 0;
 	}
 
-	if (timer < 0)
+	if (timer <= 0)
 	{
 		// ゲーム終了SE再生
 		PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
-
-		// ゲーム終了・リザルトへ
-		game_state = GameState::result;
+		//スコア算出
+		score = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2);
+		player->ResultUpdate();
+		ColaBubbleUpdate();
+		return;
 	}
 
 	bar->Update();
 	player->Update();
 
-	if (background_y < 0)
+
+}
+
+void GameMainScene::InFlyUpdate()
+{
+	if (up_bubble < 350)
 	{
-		background_y += 3.0f;
+		up_bubble += 50;
 	}
+
+	if (bubble_cnt++ > 10)
+	{
+		bubble_num = 1;
+		bubble_cnt = 0;
+	}
+	else if(bubble_cnt > 5)
+	{
+		bubble_num = 0;
+	}
+
 }
 
 void GameMainScene::InGameResultUpdate()
@@ -267,6 +325,36 @@ void GameMainScene::InGameResultUpdate()
 
 	// タイトルボタンの更新処理
 	TitleButtonUpdate();
+}
+
+void GameMainScene::ColaBubbleUpdate()
+{
+	//高さ　（振った回数×２）＋（bonus＊２）*-10
+	int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2)*-10;
+
+
+	if (player->GetColaNum() >= 2)
+	{
+		if (bubble_location.y>-100)
+		{
+			bubble_location.y -= 50;
+		}
+		else
+		{
+			game_state = GameState::in_fly;
+		}
+	}
+
+	if (bubble_cnt++ > 10)
+	{
+		bubble_num = 1;
+		bubble_cnt = 0;
+	}
+	else if (bubble_cnt > 5)
+	{
+		bubble_num = 0;
+	}
+
 }
 
 // リトライボタンの更新処理

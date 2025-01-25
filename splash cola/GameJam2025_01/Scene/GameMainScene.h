@@ -7,6 +7,7 @@ enum class GameState
 {
 	start,//
 	in_game,//プレイ中
+	in_fly,//結果発表中
 	result,
 };
 
@@ -43,6 +44,15 @@ private:
 
 	bool play_count_down_se;	// スタートのカウントダウンSE再生フラグ
 
+
+	int bubble_num;
+	int bubble_cnt;
+	int bubble_img[2];//泡画像
+	Vector2D bubble_location;
+	float up_bubble;
+	
+	float score;
+
 	int explanation_font;		// 説明文のフォント
 	int start_font;				// スタートのフォント
 	int count_down_font;		// カウントダウンのフォント
@@ -61,7 +71,10 @@ private:
 	//プレイ中
 	void InStartUpdate();//ゲームスタートのアップデート
 	void InGameUpdate();//ゲームプレイ中のアップデート
+	void InFlyUpdate();//結果発表中のアップデート
 	void InGameResultUpdate();//ゲームクリアアップデート
+
+	void ColaBubbleUpdate();//Colaの泡更新処理
 
 	void RetryButtonUpdate();		// リトライボタンの更新処理
 	void TitleButtonUpdate();		// タイトルボタンの更新処理

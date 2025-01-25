@@ -11,7 +11,7 @@ private:
 	float second_cnt;//下のバーに触れられるまでのカウント
 	//float cnt_upper_hit;//上のバーに触れられるまでのカウント
 	
-	int second_bonus;
+	int second_bonus;//0,6f以内にバーにヒットしたら加算
 
 	int touch_se;		// バーに触れた時のSE
 
@@ -22,5 +22,7 @@ public:
 	void Initialize();
 	void Update();
 	void Draw() const;
+	float GetCntBarShake() { return cnt_bar_shake; }
+	float GetSecondBonus() { return second_bonus; }
 };
 
