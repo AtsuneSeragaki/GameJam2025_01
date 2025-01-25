@@ -37,7 +37,7 @@ GameMainScene::GameMainScene()
 	end_se = resource->GetSounds("Resource/Sounds/SE/end.mp3");
 
 	// 音量調整
-	ChangeVolumeSoundMem(120, in_game_bgm);
+	ChangeVolumeSoundMem(100, in_game_bgm);
 	ChangeVolumeSoundMem(255, count_down_se);
 	ChangeVolumeSoundMem(255, start_se);
 	ChangeVolumeSoundMem(255, end_se);
@@ -129,6 +129,13 @@ void GameMainScene::Draw() const
 		DrawFormatString(170, 420, 0x000000, "retry");
 		DrawBox(390, 400, 490, 450, end_button_color, TRUE);
 		DrawFormatString(410, 420, 0x000000, "end");
+
+		// クレジット
+		// ポケットサウンド
+		DrawFormatString(0, 460, 0xffffff, "BGM/SE");
+		DrawFormatString(100, 460, 0xffffff, "MusMus");
+		DrawFormatString(300, 460, 0xffffff, "pokettosaundo");
+
 		break;
 	}
 }
