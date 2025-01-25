@@ -118,8 +118,41 @@
     <Image Include="Resource\Cola\kan4.png">
       <Filter>リソース ファイル</Filter>
     </Image>
+    <Image Include="Resource\Cola\kan1.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\pocketsound.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\balloon.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\plane.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\sun.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\UFO.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resource\dat\ranking_data.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Resource\Sounds\BGM\MusMus-BGM.mp3" />
+    <Media Include="Resource\Sounds\SE\count_down.mp3" />
+    <Media Include="Resource\Sounds\SE\end.mp3" />
+    <Media Include="Resource\Sounds\SE\open.mp3" />
+    <Media Include="Resource\Sounds\SE\open01.mp3" />
+    <Media Include="Resource\Sounds\SE\ピッ.mp3" />
+    <Media Include="Resource\Sounds\SE\start.mp3" />
+    <Media Include="Resource\Sounds\SE\touch.mp3" />
+    <Media Include="Resource\Sounds\SE\up.mp3" />
+    <Media Include="Resource\Sounds\SE\シャカシャカ.mp3" />
+    <Media Include="Resource\Sounds\SE\終了時\ジャジャーン.mp3" />
+    <Media Include="Resource\Sounds\SE\終了時\ジャン！.mp3" />
+    <Media Include="Resource\Sounds\SE\終了時\テッテレー.mp3" />
   </ItemGroup>
 </Project>
