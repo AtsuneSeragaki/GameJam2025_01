@@ -30,6 +30,19 @@ GameMainScene::GameMainScene()
 	background_img = tmp[0];
 
 	background_y = -1640.0f;
+
+	in_game_bgm = resource->GetSounds("Resource/Sounds/BGM/MusMus-BGM.mp3");
+	count_down_se = resource->GetSounds("Resource/Sounds/SE/count_down.mp3");
+	start_se = resource->GetSounds("Resource/Sounds/SE/start.mp3");
+	end_se = resource->GetSounds("Resource/Sounds/SE/end.mp3");
+
+	// 音量調整
+	ChangeVolumeSoundMem(120, in_game_bgm);
+	ChangeVolumeSoundMem(255, count_down_se);
+	ChangeVolumeSoundMem(255, start_se);
+	ChangeVolumeSoundMem(255, end_se);
+
+	play_count_down_se = true;
 }
 
 GameMainScene::~GameMainScene()
@@ -49,10 +62,18 @@ void GameMainScene::Initialize()
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 	bar->Initialize();
 	background_y = -1640.0f;
+
+	play_count_down_se = true;
 }
 
 void GameMainScene::Update()
 {
+	// ゲームメインbgmループ再生
+	if (CheckSoundMem(in_game_bgm) == FALSE)
+	{
+		PlaySoundMem(in_game_bgm, DX_PLAYTYPE_LOOP);
+	}
+
 	switch (game_state)
 	{
 	case GameState::start:
@@ -73,15 +94,20 @@ void GameMainScene::Draw() const
 	switch (game_state)
 	{
 	case GameState::start:
-		DrawFormatString(0, 20, 0xffffff, "Start");
-		DrawFormatString(0, 180, 0xffffff, "Shake the cola!!!");
+		DrawBox(0, 0, 640, 480, 0xffffff, TRUE);
+
+		// プレイヤー描画
+		player->Draw();
+
+		// カウントダウン描画
+		DrawFormatString(0, 180, 0x000000, "Shake the cola!!!");
 		if (start_count > 0)
 		{
-			DrawFormatString(0, 200, 0xffffff, "count: %d", start_count);
+			DrawFormatString(0, 200, 0x000000, "count: %d", start_count);
 		}
 		else
 		{
-			DrawFormatString(0, 200, 0xffffff, "start!!!");
+			DrawFormatString(0, 200, 0x000000, "start!!!");
 		}
 		break;
 	case GameState::in_game:
@@ -120,14 +146,36 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InStartUpdate()
 {
+	// プレイヤー更新処理
+	//player->Update();
+
 	if (fps_count < 60)
 	{
 		fps_count++;
 	}
 	else
 	{
+		play_count_down_se = true;
 		start_count--;
 		fps_count = 0;
+	}
+
+	if (start_count <= 0)
+	{
+		// ゲームスタートSE再生
+		if (CheckSoundMem(start_se) == FALSE)
+		{
+			PlaySoundMem(start_se, DX_PLAYTYPE_BACK);
+		}
+	}
+	else
+	{
+		if (play_count_down_se == true)
+		{
+			// カウントダウンSE再生
+			PlaySoundMem(count_down_se, DX_PLAYTYPE_BACK);
+			play_count_down_se = false;
+		}
 	}
 
 	if (start_count < 0)
@@ -151,6 +199,9 @@ void GameMainScene::InGameUpdate()
 
 	if (timer < 0)
 	{
+		// ゲーム終了SE再生
+		PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
+
 		// ゲーム終了・リザルトへ
 		game_state = GameState::result;
 	}

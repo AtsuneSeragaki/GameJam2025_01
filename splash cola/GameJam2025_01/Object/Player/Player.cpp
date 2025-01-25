@@ -19,6 +19,8 @@ Player::Player()
 	std::vector<int> tmp;
 	tmp = resource->GetImages("Resource/Cola/kan.png");
 	img = tmp[0];
+
+	angle = 0.0;
 }
 
 Player::~Player()
