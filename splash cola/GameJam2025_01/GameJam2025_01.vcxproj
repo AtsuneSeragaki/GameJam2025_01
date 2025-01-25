@@ -148,11 +148,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="Utility\FPS.cpp" />
     <ClCompile Include="Utility\InputManager.cpp" />
     <ClCompile Include="Utility\ResourceManager.cpp" />
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Utility\FPS.h" />
     <ClInclude Include="Utility\InputManager.h" />
     <ClInclude Include="Utility\ResourceManager.h" />
     <ClInclude Include="Utility\Vector2D.h" />
