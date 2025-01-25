@@ -8,12 +8,17 @@
 
 GameMainScene::GameMainScene()
 {
-	game_state = GameState::start;
+	game_state = GameState::result;
 
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;			// 10秒でリザルト表示
-	button_color = 0xffffff;
+
+	retry_button_color = 0xffffff;
+	end_button_color = 0xffffff;
+
+	end_flg = false;
+
 	bar = new Bar;
 	player = new Player();
 }
@@ -29,8 +34,9 @@ void GameMainScene::Initialize()
 {
 	fps_count = 0;
 	start_count = 3;
-	timer = 10;			// 10秒でリザルト表示
-	button_color = 0xffffff;
+	timer = 10;						// 10秒でリザルト表示
+	retry_button_color = 0xffffff;
+	end_button_color = 0xffffff;
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 	bar->Initialize();
 }
@@ -71,20 +77,32 @@ void GameMainScene::Draw() const
 	case GameState::in_game:
 		DrawBox(0, 0, 640, 480, 0xffffff,TRUE);
 		DrawFormatString(0, 20, 0x000000, "InGame");
+
+		// 制限時間の描画
 		DrawFormatString(0, 200, 0x000000, "timer: %d", timer);
 		bar->Draw();
 		player->Draw();
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
-		DrawBox(200, 200, 300, 250, button_color, TRUE);
-		DrawFormatString(220, 220, 0x000000, "retry");
+
+		// リトライ・エンドボタンの描画
+		DrawBox(150, 400, 250, 450, retry_button_color, TRUE);
+		DrawFormatString(170, 420, 0x000000, "retry");
+		DrawBox(390, 400, 490, 450, end_button_color, TRUE);
+		DrawFormatString(410, 420, 0x000000, "end");
 		break;
 	}
 }
 
 AbstractScene* GameMainScene::Change()
 {
+	if (end_flg == true)
+	{
+		// ゲーム終了
+		return nullptr;
+	}
+
 	return this;
 }
 
@@ -131,23 +149,26 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InGameResultUpdate()
 {
+	// マウスカーソル表示
+	SetMouseDispFlag(TRUE);
+
 	// リトライボタンの更新処理
 	RetryButtonUpdate();
+
+	// エンドボタンの更新処理
+	EndButtonUpdate();
 }
 
 // リトライボタンの更新処理
 void GameMainScene::RetryButtonUpdate()
 {
-	// マウスカーソル表示
-	SetMouseDispFlag(TRUE);
-
 	// 入力制御インスタンス取得
 	InputManager* input = InputManager::GetInstance();
 
-	if (input->GetMouseLocation().x > 200.0f && input->GetMouseLocation().x < 300.0f
-		&& input->GetMouseLocation().y > 200.0f && input->GetMouseLocation().y < 250.0f)
+	if (input->GetMouseLocation().x > 150.0f && input->GetMouseLocation().x < 250.0f
+		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
 	{
-		button_color = 0xff0000;
+		retry_button_color = 0xff0000;
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
@@ -160,6 +181,29 @@ void GameMainScene::RetryButtonUpdate()
 	else
 	{
 		// ボタンの色変更
-		button_color = 0xffffff;
+		retry_button_color = 0xffffff;
+	}
+}
+
+// エンドボタンの更新処理
+void GameMainScene::EndButtonUpdate()
+{
+	// 入力制御インスタンス取得
+	InputManager* input = InputManager::GetInstance();
+
+	if (input->GetMouseLocation().x > 390.0f && input->GetMouseLocation().x < 490.0f
+		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
+	{
+		end_button_color = 0xff0000;
+
+		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
+		{
+			end_flg = true;
+		}
+	}
+	else
+	{
+		// ボタンの色変更
+		end_button_color = 0xffffff;
 	}
 }
