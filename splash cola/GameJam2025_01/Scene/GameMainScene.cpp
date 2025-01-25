@@ -53,6 +53,7 @@ GameMainScene::GameMainScene()
 	explanation_font = CreateFontToHandle(NULL, 70, 9);
 	start_font = CreateFontToHandle(NULL, 180, 9, DX_FONTTYPE_EDGE);
 	count_down_font = CreateFontToHandle(NULL, 300, 9, DX_FONTTYPE_EDGE);
+	timer_font = CreateFontToHandle(NULL, 20, 9);
 
 	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
 	for (int i = 0; i <= 1; i++)
@@ -68,6 +69,8 @@ GameMainScene::GameMainScene()
 	up_bubble = 0.0f;
 
 	score = 0;
+
+	total_fps_count = 0;
 }
 
 
@@ -80,6 +83,7 @@ GameMainScene::~GameMainScene()
 	DeleteFontToHandle(explanation_font);
 	DeleteFontToHandle(start_font);
 	DeleteFontToHandle(count_down_font);
+	DeleteFontToHandle(timer_font);
 }
 
 // 初期化処理
@@ -94,6 +98,7 @@ void GameMainScene::Initialize()
 	background_y = -1640.0f;
 
 	play_count_down_se = true;
+	total_fps_count = 0;
 }
 
 void GameMainScene::Update()
@@ -167,15 +172,24 @@ void GameMainScene::Draw() const
 	case GameState::in_game:
 		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
 
+		// 制限時間のバー
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
+		DrawBox(30, 460, 640, 480, 0xffffff, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+		DrawBox(0, 460, 30, 480, 0xffffff, TRUE);
+		DrawBox(30, 460, 640 - total_fps_count, 480, 0x00bb00, TRUE);
+
 		// 制限時間の描画
-		DrawFormatString(0, 200, 0x000000, "timer: %d", timer);
+		char buf[100];
+		sprintf_s(buf, "%2d", timer);
+		DrawStringToHandle(5, 461, buf, 0x000000, timer_font);
+
 		bar->Draw();
 		if (timer > 0) {
 			player->Draw();
 		}
 		else {
 			int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2) * -100;
-			// 制限時間の描画
 			DrawFormatString(0, 100, 0x000000, "score: %d",score_height);
 
 			DrawExtendGraph(bubble_location.x, bubble_location.y, 360.0f, 180.0f, bubble_img[bubble_num], TRUE);
@@ -187,7 +201,6 @@ void GameMainScene::Draw() const
 		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
 
 		DrawExtendGraph(bubble_location.x-30.0f,480.0f -up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
-		// 制限時間の描画
 		DrawFormatString(0, 100, 0x000000, "score: %f", (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2));
 
 		break;
@@ -269,17 +282,20 @@ void GameMainScene::InGameUpdate()
 {
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 
-	if (fps_count < 60)
+	if (timer > 0)
 	{
-		fps_count++;
+		total_fps_count++;
+		if (fps_count < 60)
+		{
+			fps_count++;
+		}
+		else
+		{
+			timer--;
+			fps_count = 0;
+		}
 	}
 	else
-	{
-		timer--;
-		fps_count = 0;
-	}
-
-	if (timer <= 0)
 	{
 		//// ゲーム終了SE再生
 		//PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
