@@ -79,7 +79,7 @@ void Player::Update()
 	}
 }
 
-void Player::Draw()
+void Player::Draw() const
 {
 	// プレイヤー画像描画
 	DrawRotaGraph2F(location.x, 312.0f, 640.0f,150.0f,1.0, PI / 180 * angle, img, TRUE, 0);
@@ -115,4 +115,9 @@ void Player::ResultDraw()
 
 	// プレイヤー画像描画
 	DrawRotaGraph2F(location.x, 150.0f+hand_down, 640.0f, 150.0f, 1.0, 0.0, img_cola[cola_num], TRUE, 0);
+}
+
+void Player::SetBubbleHeight()
+{
+
 }

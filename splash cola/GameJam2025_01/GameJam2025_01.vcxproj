@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Object\CheckMouse\Bar.cpp" />
+    <ClCompile Include="Object\Obstacles\Bard.cpp" />
     <ClCompile Include="Object\Player\Player.cpp" />
     <ClCompile Include="Scene\GameMainScene.cpp" />
     <ClCompile Include="Object\Ranking\RankingData.cpp" />
@@ -160,6 +161,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object\CheckMouse\Bar.h" />
+    <ClInclude Include="Object\Obstacles\Bard.h" />
     <ClInclude Include="Object\Player\Player.h" />
     <ClInclude Include="Scene\GameMainScene.h" />
     <ClInclude Include="Object\Ranking\RankingData.h" />
@@ -170,6 +172,19 @@
     <ClInclude Include="Utility\ResourceManager.h" />
     <ClInclude Include="Utility\UserTemplate.h" />
     <ClInclude Include="Utility\Vector2D.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Cola\Geyser.png" />
+    <Image Include="Resource\Cola\kan.png" />
+    <Image Include="Resource\Cola\kan2.png" />
+    <Image Include="Resource\Cola\kan3.png" />
+    <Image Include="Resource\Cola\kan4.png" />
+    <Image Include="Resource\Images\GameMain\background.png" />
+    <Image Include="Resource\Images\GameMain\background2.png" />
+    <Image Include="Resource\Images\GameMain\bard.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resource\dat\ranking_data.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

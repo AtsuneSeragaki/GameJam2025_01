@@ -61,6 +61,12 @@ private:
 	int pocket_sound_image;		// ポケットサウンドのクレジット表記画像
 	int total_fps_count;		// ゲームプレイ中のfpsの合計
 
+	float bubble_height; // 泡の高さ
+
+	class Bard* bard; // 障害物(鳥)
+
+	int amount_y; // 増やしたY座標の値
+
 public:
 	GameMainScene();
 	~GameMainScene();
