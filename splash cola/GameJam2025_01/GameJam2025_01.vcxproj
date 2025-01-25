@@ -149,12 +149,14 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Object\Ranking\RankingData.cpp" />
+    <ClCompile Include="Utility\FPS.cpp" />
     <ClCompile Include="Utility\InputManager.cpp" />
     <ClCompile Include="Utility\ResourceManager.cpp" />
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object\Ranking\RankingData.h" />
+    <ClInclude Include="Utility\FPS.h" />
     <ClInclude Include="Utility\InputManager.h" />
     <ClInclude Include="Utility\ResourceManager.h" />
     <ClInclude Include="Utility\UserTemplate.h" />
