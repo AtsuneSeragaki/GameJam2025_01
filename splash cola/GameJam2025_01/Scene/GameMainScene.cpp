@@ -37,7 +37,7 @@ GameMainScene::GameMainScene()
 	in_game_bgm = resource->GetSounds("Resource/Sounds/BGM/MusMus-BGM.mp3");
 	count_down_se = resource->GetSounds("Resource/Sounds/SE/count_down.mp3");
 	start_se = resource->GetSounds("Resource/Sounds/SE/start.mp3");
-	end_se = resource->GetSounds("Resource/Sounds/SE/end.mp3");
+	end_se = resource->GetSounds("Resource/Sounds/SE/open.mp3");
 
 	// 音量調整
 	ChangeVolumeSoundMem(100, in_game_bgm);
@@ -279,8 +279,8 @@ void GameMainScene::InGameUpdate()
 
 	if (timer <= 0)
 	{
-		// ゲーム終了SE再生
-		PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
+		//// ゲーム終了SE再生
+		//PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
 		//スコア算出
 		score = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2);
 		player->ResultUpdate();
