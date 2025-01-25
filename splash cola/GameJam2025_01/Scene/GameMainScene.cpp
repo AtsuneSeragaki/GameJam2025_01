@@ -3,6 +3,7 @@
 
 GameMainScene::GameMainScene()
 {
+	game_state = GameState::in_game;
 }
 
 GameMainScene::~GameMainScene()
@@ -11,6 +12,18 @@ GameMainScene::~GameMainScene()
 
 void GameMainScene::Update()
 {
+	switch (game_state)
+	{
+	case GameState::start:
+		InStartUpdate();
+		break;
+	case GameState::in_game:
+		InGameUpdate();
+		break;
+	case GameState::result:
+		InGameResultUpdate();
+		break;
+	}
 }
 
 void GameMainScene::Draw() const
@@ -21,4 +34,16 @@ void GameMainScene::Draw() const
 AbstractScene* GameMainScene::Change()
 {
 	return this;
+}
+
+void GameMainScene::InGameUpdate()
+{
+}
+
+void GameMainScene::InStartUpdate()
+{
+}
+
+void GameMainScene::InGameResultUpdate()
+{
 }
