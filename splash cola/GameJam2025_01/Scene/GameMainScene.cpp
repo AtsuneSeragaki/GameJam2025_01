@@ -4,6 +4,8 @@
 #include "../Object/CheckMouse/Bar.h"
 #include "../Object/Player/Player.h"
 
+#include "../Utility/InputManager.h"
+
 GameMainScene::GameMainScene()
 {
 	game_state = GameState::start;
@@ -11,6 +13,7 @@ GameMainScene::GameMainScene()
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;			// 10秒でリザルト表示
+	button_color = 0xffffff;
 	bar = new Bar;
 	player = new Player();
 }
@@ -27,6 +30,8 @@ void GameMainScene::Initialize()
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;			// 10秒でリザルト表示
+	button_color = 0xffffff;
+	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 }
 
 void GameMainScene::Update()
@@ -71,6 +76,8 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
+		DrawBox(200, 200, 300, 250, button_color, TRUE);
+		DrawFormatString(220, 220, 0x000000, "retry");
 		break;
 	}
 }
@@ -123,5 +130,33 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InGameResultUpdate()
 {
+	// リトライボタンの更新処理
+	RetryButtonUpdate();
+}
 
+// リトライボタンの更新処理
+void GameMainScene::RetryButtonUpdate()
+{
+	// マウスカーソル表示
+	SetMouseDispFlag(TRUE);
+
+	// 入力制御インスタンス取得
+	InputManager* input = InputManager::GetInstance();
+
+	if (input->GetMouseLocation().x > 200.0f && input->GetMouseLocation().x < 300.0f
+		&& input->GetMouseLocation().y > 200.0f && input->GetMouseLocation().y < 250.0f)
+	{
+		button_color = 0xff0000;
+
+		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
+		{
+			Initialize();
+			// ゲームスタート状態へ
+			game_state = GameState::start;
+		}
+	}
+	else
+	{
+		button_color = 0xffffff;
+	}
 }
