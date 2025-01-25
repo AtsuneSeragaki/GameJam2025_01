@@ -20,7 +20,11 @@ private:
 	int fps_count;		// fpsカウント
 	int start_count;	// ゲームスタートのカウント
 	int timer;			// 制限時間
-	int button_color;
+
+	int retry_button_color;		// リトライボタンの色
+	int end_button_color;		// エンドボタンの色
+
+	bool end_flg;				// ゲーム終了フラグ
 
 	class Bar* bar;//上と下の判定のバー
 
@@ -47,6 +51,7 @@ private:
 	void InGameResultUpdate();//ゲームクリアアップデート
 
 	void RetryButtonUpdate();		// リトライボタンの更新処理
+	void EndButtonUpdate();			// エンドボタンの更新処理
 
 };
 
