@@ -13,6 +13,8 @@ private:
 	
 	int second_bonus;
 
+	int touch_se;		// バーに触れた時のSE
+
 public:
 	Bar();
 	~Bar();

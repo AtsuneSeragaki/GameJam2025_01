@@ -1,6 +1,8 @@
 #include "Bar.h"
 #include "DxLib.h"
 
+#include "../../Utility/ResourceManager.h"
+
 Bar::Bar()
 {
 	cnt_bar_shake = 0;
@@ -8,6 +10,12 @@ Bar::Bar()
 	is_upper_hit = true;
 	second_cnt = 0.0f;
 	second_bonus = 0;
+
+	ResourceManager* resource = ResourceManager::GetInstance();
+	touch_se = resource->GetSounds("Resource/Sounds/SE/touch.mp3");
+
+	// 音量調整
+	ChangeVolumeSoundMem(150, touch_se);
 }
 
 Bar::~Bar()
@@ -29,6 +37,9 @@ void Bar::Update()
 	
 	if (input->GetMouseLocation().y < 20 && is_upper_hit==true)
 	{
+		// タッチSE再生
+		PlaySoundMem(touch_se, DX_PLAYTYPE_BACK, TRUE);
+
 		if (second_cnt < 0.6f) { second_bonus += 1; }
 		is_upper_hit = false;
 		is_bottom_hit = true;
@@ -38,6 +49,9 @@ void Bar::Update()
 
 	if (input->GetMouseLocation().y > 440 && is_bottom_hit==true)
 	{
+		// タッチSE再生
+		PlaySoundMem(touch_se, DX_PLAYTYPE_BACK, TRUE);
+
 		if (second_cnt < 0.6f) { second_bonus += 1; }
 		is_upper_hit = true;
 		is_bottom_hit = false;
