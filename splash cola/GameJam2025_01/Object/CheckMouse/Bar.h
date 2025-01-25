@@ -13,6 +13,8 @@ private:
 	
 	int second_bonus;//0,6f以内にバーにヒットしたら加算
 
+	int touch_se;		// バーに触れた時のSE
+
 public:
 	Bar();
 	~Bar();
