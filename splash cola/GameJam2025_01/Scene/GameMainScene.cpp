@@ -31,10 +31,10 @@ GameMainScene::GameMainScene()
 
 	background_y = -1640.0f;
 
-	in_game_bgm = rm->GetSounds("Resource/Sounds/BGM/MusMus-BGM.mp3");
-	count_down_se = rm->GetSounds("Resource/Sounds/SE/count_down.mp3");
-	start_se = rm->GetSounds("Resource/Sounds/SE/start.mp3");
-	end_se = rm->GetSounds("Resource/Sounds/SE/end.mp3");
+	in_game_bgm = resource->GetSounds("Resource/Sounds/BGM/MusMus-BGM.mp3");
+	count_down_se = resource->GetSounds("Resource/Sounds/SE/count_down.mp3");
+	start_se = resource->GetSounds("Resource/Sounds/SE/start.mp3");
+	end_se = resource->GetSounds("Resource/Sounds/SE/end.mp3");
 
 	// 音量調整
 	ChangeVolumeSoundMem(120, in_game_bgm);
