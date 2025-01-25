@@ -11,7 +11,7 @@ Player::Player()
 {
 	// 変数の初期化
 	location.x = 640.0f;
-	location.y = 250.0f;
+	location.y = 0.0f;
 	angle = 0.0f;
 
 	// 画像データ格納
@@ -28,7 +28,7 @@ Player::Player()
 	cola_num = 0;
 	cola_cnt = -10;
 
-	
+	hand_down = 0.0f;
 
 	angle = 0.0;
 }
@@ -75,20 +75,18 @@ void Player::Draw()
 void Player::ResultUpdate()
 {
 	cola_cnt += 1;
-	if (cola_cnt > 12&&cola_num<2)
+	if (cola_cnt > 7&&cola_num<2)
 	{
 		cola_cnt = 0;
 		cola_num += 1;
 	}
 
-	if (cola_num >= 1)
-	{
-	}
+
 }
 
 void Player::ResultDraw()
 {
 
 	// プレイヤー画像描画
-	DrawRotaGraph2F(location.x, 150.0f, 640.0f, 150.0f, 1.0, 0.0, img_cola[cola_num], TRUE, 0);
+	DrawRotaGraph2F(location.x, 150.0f+hand_down, 640.0f, 150.0f, 1.0, 0.0, img_cola[cola_num], TRUE, 0);
 }

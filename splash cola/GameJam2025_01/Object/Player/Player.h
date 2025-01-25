@@ -12,6 +12,7 @@ private:
 	int cola_num;
 	int cola_cnt;
 
+	float hand_down;
 
 public:
 	// コンストラクタ
@@ -27,4 +28,5 @@ public:
 
 	void ResultUpdate();
 	void ResultDraw();
+	int GetColaNum() { return cola_num; }
 };

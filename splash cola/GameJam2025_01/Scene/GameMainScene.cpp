@@ -46,15 +46,17 @@ GameMainScene::GameMainScene()
 	play_count_down_se = true;
 
 	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i <= 1; i++)
 	{
 		bubble_img[i] = tmp[i];
 	}
 
 	//320.0f, 150.f
 	bubble_location.x = 280.0f;
-	bubble_location.y = 150.0f;
+	bubble_location.y = 180.0f;
 	bubble_num = 0;
+	bubble_cnt = 0;
+	up_bubble = 0.0f;
 }
 
 
@@ -94,6 +96,9 @@ void GameMainScene::Update()
 		break;
 	case GameState::in_game:
 		InGameUpdate();
+		break;
+	case GameState::in_fly:
+		InFlyUpdate();
 		break;
 	case GameState::result:
 		InGameResultUpdate();
@@ -136,9 +141,19 @@ void GameMainScene::Draw() const
 			player->Draw();
 		}
 		else {
-			DrawExtendGraph(bubble_location.x, bubble_location.y, 360.0f, 180.f, bubble_img[bubble_num], TRUE);
+			int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2) * -100;
+			// 制限時間の描画
+			DrawFormatString(0, 100, 0x000000, "score: %d",score_height);
+
+			DrawExtendGraph(bubble_location.x, bubble_location.y, 360.0f, 180.0f, bubble_img[bubble_num], TRUE);
 			player->ResultDraw();
 		}
+		break;
+	case GameState::in_fly:
+		DrawGraphF(0.0f, background_y, background_img, TRUE);
+
+		DrawExtendGraph(bubble_location.x-30.0f,480.0f -up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
+
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
@@ -224,11 +239,8 @@ void GameMainScene::InGameUpdate()
 		PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
 
 		player->ResultUpdate();
-		bubble_location.y -= 10;
-
+		ColaBubbleUpdate();
 		return;
-		// ゲーム終了・リザルトへ
-		//game_state = GameState::result;
 	}
 
 	bar->Update();
@@ -238,6 +250,25 @@ void GameMainScene::InGameUpdate()
 	{
 		background_y += 3.0f;
 	}
+}
+
+void GameMainScene::InFlyUpdate()
+{
+	if (up_bubble < 350)
+	{
+		up_bubble += 50;
+	}
+
+	if (bubble_cnt++ > 10)
+	{
+		bubble_num = 1;
+		bubble_cnt = 0;
+	}
+	else if(bubble_cnt > 5)
+	{
+		bubble_num = 0;
+	}
+	
 }
 
 void GameMainScene::InGameResultUpdate()
@@ -250,6 +281,35 @@ void GameMainScene::InGameResultUpdate()
 
 	// エンドボタンの更新処理
 	EndButtonUpdate();
+}
+
+void GameMainScene::ColaBubbleUpdate()
+{
+	//高さ　（振った回数×２）＋（bonus＊２）*-10
+	int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2)*-100;
+
+	if (player->GetColaNum() >= 2)
+	{
+		if (bubble_location.y>-100)
+		{
+			bubble_location.y -= 50;
+		}
+		else
+		{
+			game_state = GameState::in_fly;
+		}
+	}
+
+	if (bubble_cnt++ > 10)
+	{
+		bubble_num = 1;
+		bubble_cnt = 0;
+	}
+	else if (bubble_cnt > 5)
+	{
+		bubble_num = 0;
+	}
+
 }
 
 // リトライボタンの更新処理
