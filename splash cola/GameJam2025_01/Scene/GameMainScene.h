@@ -67,6 +67,9 @@ private:
 
 	int amount_y; // 増やしたY座標の値
 
+	int fade_mode;		// フェードの動き　0：フェードなし　1：明るくなる　2：暗くなる
+	int fade_alpha;		// フェードのアルファ値
+
 public:
 	GameMainScene();
 	~GameMainScene();
@@ -91,5 +94,6 @@ private:
 	void PlayButtonUpdate();		// プレイボタンの更新処理
 	void EndButtonUpdate();			// エンドボタンの更新処理
 
+	void fadeUpdate();				// フェード更新処理
 };
 
