@@ -18,6 +18,25 @@ Player::Player()
 	std::vector<int> tmp;
 	tmp = resource->GetImages("Resource/Cola/kan.png");
 	img = tmp[0];
+	tmp = resource->GetImages("Resource/Cola/kan2.png");
+	img_cola[0] = tmp[0];
+	tmp = resource->GetImages("Resource/Cola/kan3.png");
+	img_cola[1] = tmp[0];
+	tmp = resource->GetImages("Resource/Cola/kan4.png");
+	img_cola[2] = tmp[0];
+	cola_num = 0;
+	cola_cnt = -10;
+	tmp = resource->GetImages("Resource/Cola/Geyser.png",2,2,1,64,128);
+	for (int i = 0; i < 1; i++)
+	{
+		bubble_img[i] = tmp[i];
+	}
+
+	//320.0f, 150.f
+	bubble_location.x = 280.0f;
+	bubble_location.y = 150.0f;
+	bubble_num = 0;
+	
 }
 
 Player::~Player()
@@ -59,4 +78,27 @@ void Player::Draw()
 	DrawRotaGraph2F(location.x, 312.0f, 640.0f,150.0f,1.0, PI / 180 * angle, img, TRUE, 0);
 
 	DrawFormatString(0, 20, 0x000000, "%f", angle);
+}
+
+void Player::ResultUpdate()
+{
+	cola_cnt += 1;
+	if (cola_cnt > 12&&cola_num<2)
+	{
+		cola_cnt = 0;
+		cola_num += 1;
+	}
+
+	if (cola_num >= 1)
+	{
+		bubble_location.y -= 10;
+	}
+}
+
+void Player::ResultDraw()
+{
+	DrawExtendGraph(bubble_location.x, bubble_location.y, 360.0f, 180.f, bubble_img[bubble_num], TRUE);
+
+	// プレイヤー画像描画
+	DrawRotaGraph2F(location.x, 150.0f, 640.0f, 150.0f, 1.0, 0.0, img_cola[cola_num], TRUE, 0);
 }

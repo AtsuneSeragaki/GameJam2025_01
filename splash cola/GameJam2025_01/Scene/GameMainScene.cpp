@@ -81,7 +81,12 @@ void GameMainScene::Draw() const
 		// 制限時間の描画
 		DrawFormatString(0, 200, 0x000000, "timer: %d", timer);
 		bar->Draw();
-		player->Draw();
+		if (timer > 0) {
+			player->Draw();
+		}
+		else {
+			player->ResultDraw();
+		}
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
@@ -139,10 +144,12 @@ void GameMainScene::InGameUpdate()
 		fps_count = 0;
 	}
 
-	if (timer < 0)
+	if (timer <= 0)
 	{
+		player->ResultUpdate();
+		return;
 		// ゲーム終了・リザルトへ
-		game_state = GameState::result;
+		//game_state = GameState::result;
 	}
 
 	bar->Update();
