@@ -56,6 +56,16 @@ private:
 	int explanation_font;		// 説明文のフォント
 	int start_font;				// スタートのフォント
 	int count_down_font;		// カウントダウンのフォント
+	int timer_font;				// 制限時間のフォント
+
+	int pocket_sound_image;		// ポケットサウンドのクレジット表記画像
+	int total_fps_count;		// ゲームプレイ中のfpsの合計
+
+	float bubble_height; // 泡の高さ
+
+	class Bard* bard; // 障害物(鳥)
+
+	int amount_y; // 増やしたY座標の値
 
 public:
 	GameMainScene();

@@ -13,6 +13,9 @@ private:
 	int cola_cnt;
 
 	float hand_down;
+	int open_can_se;		// 缶を開けるSE
+	int up_se;				// 噴き上がるSE
+	bool play_open_can_se;	// 缶を開けるSE再生フラグ
 
 public:
 	// コンストラクタ
@@ -21,12 +24,15 @@ public:
 	~Player();
 
 public:
+	// 初期化処理
+	void Initialize();
 	// 更新処理
 	void Update();
 	// 描画処理
-	void Draw();
+	void Draw() const;
 
 	void ResultUpdate();
 	void ResultDraw();
+	void SetBubbleHeight();
 	int GetColaNum() { return cola_num; }
 };
