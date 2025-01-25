@@ -70,6 +70,8 @@ private:
 	int fade_mode;		// フェードの動き　0：フェードなし　1：明るくなる　2：暗くなる
 	int fade_alpha;		// フェードのアルファ値
 
+	int hit_num; // 障害物に当たった回数
+
 public:
 	GameMainScene();
 	~GameMainScene();

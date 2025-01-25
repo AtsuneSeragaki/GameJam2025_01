@@ -13,6 +13,9 @@ Player::Player()
 	location.x = 640.0f;
 	location.y = 0.0f;
 	angle = 0.0f;
+	cola_num = 0;
+	cola_cnt = -10;
+	hand_down = 0.0f;
 
 	// 画像データ格納
 	ResourceManager* resource = ResourceManager::GetInstance();
@@ -25,11 +28,8 @@ Player::Player()
 	img_cola[1] = tmp[0];
 	tmp = resource->GetImages("Resource/Cola/kan4.png");
 	img_cola[2] = tmp[0];
-	cola_num = 0;
-	cola_cnt = -10;
 
-	hand_down = 0.0f;
-
+	// 音源データ格納
 	open_can_se = resource->GetSounds("Resource/Sounds/SE/open.mp3");
 	up_se = resource->GetSounds("Resource/Sounds/SE/up.mp3");
 
@@ -48,12 +48,9 @@ void Player::Initialize()
 	// 変数の初期化
 	location.x = 640.0f;
 	location.y = 0.0f;
-
 	angle = 0.0f;
-
 	cola_num = 0;
 	cola_cnt = -10;
-
 	hand_down = 0.0f;
 
 	play_open_can_se = true;
@@ -66,7 +63,7 @@ void Player::Update()
 		play_open_can_se = true;
 	}
 
-	// 入力制御インスタンス取得
+	// 入力制御クラスのインスタンス取得
 	InputManager* input = InputManager::GetInstance();
 
 	// マウスのY座標をプレイヤーのY座標に代入
@@ -120,18 +117,10 @@ void Player::ResultUpdate()
 		cola_cnt = 0;
 		cola_num += 1;
 	}
-
-
 }
 
 void Player::ResultDraw()
 {
-
 	// プレイヤー画像描画
 	DrawRotaGraph2F(location.x, 150.0f+hand_down, 640.0f, 150.0f, 1.0, 0.0, img_cola[cola_num], TRUE, 0);
-}
-
-void Player::SetBubbleHeight()
-{
-
 }
