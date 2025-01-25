@@ -1,5 +1,7 @@
 #include "DxLib.h"
 #include "Utility/FPS.h"
+#include "Scene/GameMainScene.h"
+#include "Scene/SceneManager.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 
@@ -20,6 +22,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	SetDrawScreen(DX_SCREEN_BACK);
+	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new GameMainScene()));
 
 	FPS fp;
 	//ループ前にFPS計測を初期化
@@ -33,9 +36,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		fp.FPSUpdate();
 
 		ClearDrawScreen();
+		SceneManager.Update();
+		SceneManager.Draw();
 
-		DrawCircle(320, 240, 15, GetColor(255, 255, 255), TRUE);
-
+		if (SceneManager.Change() == nullptr) {
+			break;
+		}
 		ScreenFlip();
 
 	}
