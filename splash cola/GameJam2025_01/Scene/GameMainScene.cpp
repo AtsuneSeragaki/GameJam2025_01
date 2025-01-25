@@ -11,7 +11,6 @@ GameMainScene::GameMainScene()
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;			// 10秒でリザルト表示
-	game_state = GameState::in_game;
 	bar = new Bar;
 	player = new Player();
 }
@@ -53,7 +52,15 @@ void GameMainScene::Draw() const
 	{
 	case GameState::start:
 		DrawFormatString(0, 20, 0xffffff, "Start");
-		DrawFormatString(0, 200, 0xffffff, "count: %d",start_count);
+		DrawFormatString(0, 180, 0xffffff, "Shake the cola!!!");
+		if (start_count > 0)
+		{
+			DrawFormatString(0, 200, 0xffffff, "count: %d", start_count);
+		}
+		else
+		{
+			DrawFormatString(0, 200, 0xffffff, "start!!!");
+		}
 		break;
 	case GameState::in_game:
 		DrawBox(0, 0, 640, 480, 0xffffff,TRUE);
