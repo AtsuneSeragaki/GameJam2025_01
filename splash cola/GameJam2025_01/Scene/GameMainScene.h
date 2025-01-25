@@ -15,9 +15,16 @@ class GameMainScene :
 {
 private:
 	GameState game_state;//現在のゲームメインの状態
+
+	int fps_count;		// fpsカウント
+	int start_count;	// ゲームスタートのカウント
+	int timer;			// 制限時間
+
 public:
 	GameMainScene();
 	~GameMainScene();
+
+	void Initialize();		// 初期化処理
 
 	void Update() override;
 	void Draw() const override;
