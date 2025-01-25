@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
     <ClCompile Include="Object\CheckMouse\Bar.cpp" />
+    <ClCompile Include="Object\Player\Player.cpp" />
     <ClCompile Include="Scene\GameMainScene.cpp" />
     <ClCompile Include="Object\Ranking\RankingData.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
@@ -159,6 +160,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Object\CheckMouse\Bar.h" />
+    <ClInclude Include="Object\Player\Player.h" />
     <ClInclude Include="Scene\GameMainScene.h" />
     <ClInclude Include="Object\Ranking\RankingData.h" />
     <ClInclude Include="Scene\AbstractScene.h" />

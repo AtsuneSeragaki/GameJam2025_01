@@ -1,7 +1,7 @@
 #pragma once
 #include "AbstractScene.h"
 #include "../Utility/Vector2D.h"
-#include "../Object/CheckMouse/Bar.h"
+
 
 enum class GameState
 {
@@ -21,7 +21,9 @@ private:
 	int start_count;	// ゲームスタートのカウント
 	int timer;			// 制限時間
 
-	Bar* bar;//上と下の判定のバー
+	class Bar* bar;//上と下の判定のバー
+
+	class Player* player; // プレイヤー
 public:
 	GameMainScene();
 	~GameMainScene();
