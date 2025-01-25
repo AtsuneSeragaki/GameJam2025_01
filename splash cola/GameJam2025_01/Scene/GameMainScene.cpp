@@ -150,6 +150,7 @@ void GameMainScene::RetryButtonUpdate()
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
+			// 初期化処理
 			Initialize();
 			// ゲームスタート状態へ
 			game_state = GameState::start;
@@ -157,6 +158,7 @@ void GameMainScene::RetryButtonUpdate()
 	}
 	else
 	{
+		// ボタンの色変更
 		button_color = 0xffffff;
 	}
 }
