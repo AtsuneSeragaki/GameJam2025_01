@@ -6,6 +6,7 @@ class Player
 {
 private:
 	Vector2D location; // 手とコーラの座標
+	double angle;      // 画像の角度
 	int img;           // 画像データ
 
 public:
