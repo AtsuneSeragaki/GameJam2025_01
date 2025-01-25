@@ -30,8 +30,6 @@ Player::Player()
 
 	hand_down = 0.0f;
 
-	angle = 0.0;
-
 	open_can_se = resource->GetSounds("Resource/Sounds/SE/open.mp3");
 	up_se = resource->GetSounds("Resource/Sounds/SE/up.mp3");
 
@@ -43,6 +41,22 @@ Player::Player()
 
 Player::~Player()
 {
+}
+
+void Player::Initialize()
+{
+	// 変数の初期化
+	location.x = 640.0f;
+	location.y = 0.0f;
+
+	angle = 0.0f;
+
+	cola_num = 0;
+	cola_cnt = -10;
+
+	hand_down = 0.0f;
+
+	play_open_can_se = true;
 }
 
 void Player::Update()

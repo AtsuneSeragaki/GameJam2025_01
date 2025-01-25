@@ -101,6 +101,7 @@ void GameMainScene::Initialize()
 	left_button_color = 0xffffff;
 	right_button_color = 0xffffff;
 	bar->Initialize();
+	player->Initialize();
 	background_y = -1640.0f;
 
 	play_count_down_se = true;
