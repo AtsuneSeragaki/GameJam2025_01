@@ -12,9 +12,6 @@ private:
 	int cola_num;
 	int cola_cnt;
 
-	int bubble_num;
-	int bubble_img[2];//泡画像
-	Vector2D bubble_location;
 
 public:
 	// コンストラクタ

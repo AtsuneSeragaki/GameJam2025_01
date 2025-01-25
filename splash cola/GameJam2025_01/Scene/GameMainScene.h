@@ -29,6 +29,12 @@ private:
 	class Bar* bar;//上と下の判定のバー
 
 	class Player* player; // プレイヤー
+
+	int bubble_num;
+	int bubble_img[2];//泡画像
+	Vector2D bubble_location;
+
+
 public:
 	GameMainScene();
 	~GameMainScene();

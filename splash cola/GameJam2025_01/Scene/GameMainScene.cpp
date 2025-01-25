@@ -4,6 +4,7 @@
 #include "../Object/CheckMouse/Bar.h"
 #include "../Object/Player/Player.h"
 
+#include "../Utility/ResourceManager.h"
 #include "../Utility/InputManager.h"
 
 GameMainScene::GameMainScene()
@@ -21,6 +22,20 @@ GameMainScene::GameMainScene()
 
 	bar = new Bar;
 	player = new Player();
+
+	// 画像データ格納
+	ResourceManager* resource = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
+	for (int i = 0; i < 1; i++)
+	{
+		bubble_img[i] = tmp[i];
+	}
+
+	//320.0f, 150.f
+	bubble_location.x = 280.0f;
+	bubble_location.y = 150.0f;
+	bubble_num = 0;
 }
 
 GameMainScene::~GameMainScene()
@@ -85,6 +100,7 @@ void GameMainScene::Draw() const
 			player->Draw();
 		}
 		else {
+			DrawExtendGraph(bubble_location.x, bubble_location.y, 360.0f, 180.f, bubble_img[bubble_num], TRUE);
 			player->ResultDraw();
 		}
 		break;
@@ -147,6 +163,8 @@ void GameMainScene::InGameUpdate()
 	if (timer <= 0)
 	{
 		player->ResultUpdate();
+		bubble_location.y -= 10;
+
 		return;
 		// ゲーム終了・リザルトへ
 		//game_state = GameState::result;

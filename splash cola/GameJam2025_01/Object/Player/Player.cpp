@@ -26,16 +26,7 @@ Player::Player()
 	img_cola[2] = tmp[0];
 	cola_num = 0;
 	cola_cnt = -10;
-	tmp = resource->GetImages("Resource/Cola/Geyser.png",2,2,1,64,128);
-	for (int i = 0; i < 1; i++)
-	{
-		bubble_img[i] = tmp[i];
-	}
 
-	//320.0f, 150.f
-	bubble_location.x = 280.0f;
-	bubble_location.y = 150.0f;
-	bubble_num = 0;
 	
 }
 
@@ -91,13 +82,11 @@ void Player::ResultUpdate()
 
 	if (cola_num >= 1)
 	{
-		bubble_location.y -= 10;
 	}
 }
 
 void Player::ResultDraw()
 {
-	DrawExtendGraph(bubble_location.x, bubble_location.y, 360.0f, 180.f, bubble_img[bubble_num], TRUE);
 
 	// プレイヤー画像描画
 	DrawRotaGraph2F(location.x, 150.0f, 640.0f, 150.0f, 1.0, 0.0, img_cola[cola_num], TRUE, 0);
