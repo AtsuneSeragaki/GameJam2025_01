@@ -8,10 +8,13 @@ GameMainScene::GameMainScene()
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;			// 10秒でリザルト表示
+	game_state = GameState::in_game;
+	bar = new Bar;
 }
 
 GameMainScene::~GameMainScene()
 {
+	delete bar;
 }
 
 // 初期化処理
@@ -58,6 +61,7 @@ void GameMainScene::Draw() const
 	case GameState::in_game:
 		DrawFormatString(0, 20, 0xffffff, "InGame");
 		DrawFormatString(0, 200, 0xffffff, "timer: %d", timer);
+		bar->Draw();
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
@@ -107,6 +111,7 @@ void GameMainScene::InGameUpdate()
 		game_state = GameState::result;
 	}
 
+	bar->Update();
 }
 
 void GameMainScene::InGameResultUpdate()

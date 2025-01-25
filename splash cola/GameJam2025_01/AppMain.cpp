@@ -8,6 +8,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 {
 	// ウィンドウのタイトルを"splash cola"に変更
 	SetMainWindowText("splash cola");
+
 	ChangeWindowMode(TRUE);
 
 	SetGraphMode(640, 480, 32);	//画面サイズ指定
@@ -21,6 +22,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	}
 
+	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 	SetDrawScreen(DX_SCREEN_BACK);
 	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new GameMainScene()));
 
