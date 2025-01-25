@@ -13,12 +13,14 @@ GameMainScene::GameMainScene()
 {
 	game_state = GameState::start;
 
+	start_flg = false;
+
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;			// 10秒でリザルト表示
 
-	retry_button_color = 0xffffff;
-	end_button_color = 0xffffff;
+	left_button_color = 0xffffff;
+	right_button_color = 0xffffff;
 
 	end_flg = false;
 
@@ -45,6 +47,12 @@ GameMainScene::GameMainScene()
 
 	play_count_down_se = true;
 
+	// フォント作成
+	explanation_font = CreateFontToHandle(NULL, 70, 9);
+	start_font = CreateFontToHandle(NULL, 180, 9, DX_FONTTYPE_EDGE);
+	count_down_font = CreateFontToHandle(NULL, 300, 9, DX_FONTTYPE_EDGE);
+}
+
 	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
 	for (int i = 0; i <= 1; i++)
 	{
@@ -66,6 +74,11 @@ GameMainScene::~GameMainScene()
 {
 	delete bar;
 	delete player;
+
+	// 作成したフォントデータを削除する
+	DeleteFontToHandle(explanation_font);
+	DeleteFontToHandle(start_font);
+	DeleteFontToHandle(count_down_font);
 }
 
 // 初期化処理
@@ -74,9 +87,8 @@ void GameMainScene::Initialize()
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;						// 10秒でリザルト表示
-	retry_button_color = 0xffffff;
-	end_button_color = 0xffffff;
-	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
+	left_button_color = 0xffffff;
+	right_button_color = 0xffffff;
 	bar->Initialize();
 	background_y = -1640.0f;
 
@@ -110,31 +122,45 @@ void GameMainScene::Update()
 
 void GameMainScene::Draw() const
 {
-	DrawFormatString(0, 0, 0xffffff, "GameMain");
+	// 背景描画
+	DrawGraphF(0.0f, background_y, background_img, TRUE);
+
 	switch (game_state)
 	{
 	case GameState::start:
-		DrawBox(0, 0, 640, 480, 0xffffff, TRUE);
-
 		// プレイヤー描画
 		player->Draw();
 
-		// カウントダウン描画
-		DrawFormatString(0, 180, 0x000000, "Shake the cola!!!");
-		if (start_count > 0)
+		//DrawStringToHandle(20, 20, "Shake the cola!!!", 0x000000, explanation_font);
+		DrawStringToHandle(20, 20, "SHAKE THE SODA!!!", 0x000000, explanation_font);
+
+		if (start_flg == false)
 		{
-			DrawFormatString(0, 200, 0x000000, "count: %d", start_count);
+			// プレイ・エンドボタンの描画
+			DrawBox(150, 400, 250, 450, left_button_color, TRUE);
+			DrawFormatString(170, 420, 0x000000, "PLAY");
+			DrawBox(390, 400, 490, 450, right_button_color, TRUE);
+			DrawFormatString(410, 420, 0x000000, "END");
 		}
 		else
 		{
-			DrawFormatString(0, 200, 0x000000, "start!!!");
+			// カウントダウン描画
+			if (start_count > 0)
+			{
+				// 文字列に変換
+				char buf[100];
+				sprintf_s(buf, "%d", start_count);
+				DrawStringToHandle(250, 100, buf, 0x000000, count_down_font, 0xffffff);
+			}
+			else
+			{
+				DrawStringToHandle(50, 150, "START!", 0x000000, start_font, 0xffffff);
+			}
 		}
 		break;
+
 	case GameState::in_game:
-		DrawBox(0, 0, 640, 480, 0xffffff,TRUE);
-		DrawGraphF(0.0f, background_y, background_img, TRUE);
 		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
-		DrawFormatString(0, 20, 0x000000, "InGame");
 
 		// 制限時間の描画
 		DrawFormatString(0, 200, 0x000000, "timer: %d", timer);
@@ -161,13 +187,11 @@ void GameMainScene::Draw() const
 
 		break;
 	case GameState::result:
-		DrawFormatString(0, 20, 0xffffff, "Result");
-
-		// リトライ・エンドボタンの描画
-		DrawBox(150, 400, 250, 450, retry_button_color, TRUE);
-		DrawFormatString(170, 420, 0x000000, "retry");
-		DrawBox(390, 400, 490, 450, end_button_color, TRUE);
-		DrawFormatString(410, 420, 0x000000, "end");
+		// リトライ・タイトルボタンの描画
+		DrawBox(150, 400, 250, 450, left_button_color, TRUE);
+		DrawFormatString(170, 420, 0x000000, "RETRY");
+		DrawBox(390, 400, 490, 450, right_button_color, TRUE);
+		DrawFormatString(410, 420, 0x000000, "TITLE");
 
 		// クレジット
 		// ポケットサウンド
@@ -196,45 +220,56 @@ void GameMainScene::InStartUpdate()
 {
 	// プレイヤー更新処理
 	//player->Update();
-
-	if (fps_count < 60)
+	if (start_flg == false)
 	{
-		fps_count++;
+		// プレイボタン更新処理
+		PlayButtonUpdate();
+		// エンドボタン更新処理
+		EndButtonUpdate();
 	}
 	else
 	{
-		play_count_down_se = true;
-		start_count--;
-		fps_count = 0;
-	}
-
-	if (start_count <= 0)
-	{
-		// ゲームスタートSE再生
-		if (CheckSoundMem(start_se) == FALSE)
+		if (fps_count < 60)
 		{
-			PlaySoundMem(start_se, DX_PLAYTYPE_BACK);
+			fps_count++;
 		}
-	}
-	else
-	{
-		if (play_count_down_se == true)
+		else
 		{
-			// カウントダウンSE再生
-			PlaySoundMem(count_down_se, DX_PLAYTYPE_BACK);
-			play_count_down_se = false;
+			play_count_down_se = true;
+			start_count--;
+			fps_count = 0;
 		}
-	}
 
-	if (start_count < 0)
-	{
-		// ゲーム開始
-		game_state = GameState::in_game;
+		if (start_count <= 0)
+		{
+			// ゲームスタートSE再生
+			if (CheckSoundMem(start_se) == FALSE)
+			{
+				PlaySoundMem(start_se, DX_PLAYTYPE_BACK);
+			}
+		}
+		else
+		{
+			if (play_count_down_se == true)
+			{
+				// カウントダウンSE再生
+				PlaySoundMem(count_down_se, DX_PLAYTYPE_BACK);
+				play_count_down_se = false;
+			}
+		}
+
+		if (start_count < 0)
+		{
+			// ゲーム開始
+			game_state = GameState::in_game;
+		}
 	}
 }
 
 void GameMainScene::InGameUpdate()
 {
+	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
+
 	if (fps_count < 60)
 	{
 		fps_count++;
@@ -289,8 +324,8 @@ void GameMainScene::InGameResultUpdate()
 	// リトライボタンの更新処理
 	RetryButtonUpdate();
 
-	// エンドボタンの更新処理
-	EndButtonUpdate();
+	// タイトルボタンの更新処理
+	TitleButtonUpdate();
 }
 
 void GameMainScene::ColaBubbleUpdate()
@@ -328,16 +363,46 @@ void GameMainScene::RetryButtonUpdate()
 {
 	// 入力制御インスタンス取得
 	InputManager* input = InputManager::GetInstance();
+	input->Update();
 
 	if (input->GetMouseLocation().x > 150.0f && input->GetMouseLocation().x < 250.0f
 		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
 	{
-		retry_button_color = 0xff0000;
+		left_button_color = 0xff0000;
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
 			// 初期化処理
 			Initialize();
+			// ゲーム開始
+			game_state = GameState::start;
+		}
+	}
+	else
+	{
+		// ボタンの色変更
+		left_button_color = 0xffffff;
+	}
+}
+
+// タイトルボタンの更新処理
+void GameMainScene::TitleButtonUpdate()
+{
+	// 入力制御インスタンス取得
+	InputManager* input = InputManager::GetInstance();
+
+	if (input->GetMouseLocation().x > 390.0f && input->GetMouseLocation().x < 490.0f
+		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
+	{
+		right_button_color = 0xff0000;
+
+		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
+		{
+			//end_flg = true;
+
+			// 初期化処理
+			Initialize();
+			start_flg = false;
 			// ゲームスタート状態へ
 			game_state = GameState::start;
 		}
@@ -345,7 +410,31 @@ void GameMainScene::RetryButtonUpdate()
 	else
 	{
 		// ボタンの色変更
-		retry_button_color = 0xffffff;
+		right_button_color = 0xffffff;
+	}
+}
+
+// プレイボタンの更新処理
+void GameMainScene::PlayButtonUpdate()
+{
+	// 入力制御インスタンス取得
+	InputManager* input = InputManager::GetInstance();
+	input->Update();
+
+	if (input->GetMouseLocation().x > 150.0f && input->GetMouseLocation().x < 250.0f
+		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
+	{
+		left_button_color = 0xff0000;
+
+		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
+		{
+			start_flg = true;
+		}
+	}
+	else
+	{
+		// ボタンの色変更
+		left_button_color = 0xffffff;
 	}
 }
 
@@ -358,16 +447,17 @@ void GameMainScene::EndButtonUpdate()
 	if (input->GetMouseLocation().x > 390.0f && input->GetMouseLocation().x < 490.0f
 		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
 	{
-		end_button_color = 0xff0000;
+		right_button_color = 0xff0000;
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
+			// ゲーム終了
 			end_flg = true;
 		}
 	}
 	else
 	{
 		// ボタンの色変更
-		end_button_color = 0xffffff;
+		right_button_color = 0xffffff;
 	}
 }

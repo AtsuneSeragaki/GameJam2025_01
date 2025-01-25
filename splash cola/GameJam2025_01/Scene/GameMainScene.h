@@ -18,12 +18,14 @@ class GameMainScene :
 private:
 	GameState game_state;//現在のゲームメインの状態
 
+	bool start_flg;			// ゲーム開始フラグ
+
 	int fps_count;		// fpsカウント
 	int start_count;	// ゲームスタートのカウント
 	int timer;			// 制限時間
 
-	int retry_button_color;		// リトライボタンの色
-	int end_button_color;		// エンドボタンの色
+	int left_button_color;		// 左ボタンの色
+	int right_button_color;		// 右ボタンの色
 
 	bool end_flg;				// ゲーム終了フラグ
 
@@ -34,7 +36,6 @@ private:
 	int background_img;  // 背景画像
 
 	float background_y; // 背景Y座標
-
 
 	int in_game_bgm;			// インゲームのBGM
 	int count_down_se;			// スタートのカウントダウンSE
@@ -51,6 +52,10 @@ private:
 	float up_bubble;
 	
 	float score;
+
+	int explanation_font;		// 説明文のフォント
+	int start_font;				// スタートのフォント
+	int count_down_font;		// カウントダウンのフォント
 
 public:
 	GameMainScene();
@@ -72,6 +77,8 @@ private:
 	void ColaBubbleUpdate();//Colaの泡更新処理
 
 	void RetryButtonUpdate();		// リトライボタンの更新処理
+	void TitleButtonUpdate();		// タイトルボタンの更新処理
+	void PlayButtonUpdate();		// プレイボタンの更新処理
 	void EndButtonUpdate();			// エンドボタンの更新処理
 
 };

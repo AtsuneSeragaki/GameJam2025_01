@@ -7,8 +7,8 @@
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 
 {
-	// ウィンドウのタイトルを"splash cola"に変更
-	SetMainWindowText("splash cola");
+	// ウィンドウのタイトルを"SHAKE THE SODA!!!"に変更
+	SetMainWindowText("SHAKE THE SODA!!!");
 
 	ChangeWindowMode(TRUE);
 
@@ -23,7 +23,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	}
 
-	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
+	SetMouseDispFlag(TRUE);		// マウスカーソル表示
 	SetDrawScreen(DX_SCREEN_BACK);
 	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new GameMainScene()));
 
