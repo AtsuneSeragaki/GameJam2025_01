@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Utility/InputManager.h"
+#include <vector>
 class Bar
 {
 private:
@@ -15,14 +16,20 @@ private:
 
 	int touch_se;		// バーに触れた時のSE
 
+	std::vector<class Star*> stars;
+
 public:
 	Bar();
 	~Bar();
 
 	void Initialize();
+	void Finalize();
 	void Update();
 	void Draw() const;
 	float GetCntBarShake() { return cnt_bar_shake; }
 	float GetSecondBonus() { return second_bonus; }
+
+	// 星エフェクトの生成
+	void CreateStar(Vector2D center);
 };
 

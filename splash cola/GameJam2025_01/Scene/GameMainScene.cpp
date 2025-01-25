@@ -328,8 +328,6 @@ void GameMainScene::InGameUpdate()
 	}
 	else
 	{
-		//// ゲーム終了SE再生
-		//PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
 		//スコア算出
 		score = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2);
 		player->ResultUpdate();
@@ -423,6 +421,7 @@ void GameMainScene::ColaBubbleUpdate()
 			background_img = tmp[0];*/
 			bubble_height = bar->GetCntBarShake() * 30.0f;
 			game_state = GameState::in_fly;
+			bar->Finalize();
 		}
 	}
 

@@ -2,6 +2,9 @@
 #include "DxLib.h"
 
 #include "../../Utility/ResourceManager.h"
+#include "../../Object/Star/Star.h"
+#define _USE_MATH_DEFINES
+#include <math.h>
 
 Bar::Bar()
 {
@@ -31,6 +34,18 @@ void Bar::Initialize()
 	second_bonus = 0;
 }
 
+void Bar::Finalize()
+{
+	if (stars.empty())
+	{
+		// starsが空だったら関数終了
+		return;
+	}
+
+	// 動的配列の要素を削除
+	stars.clear();
+}
+
 void Bar::Update()
 {
 	InputManager* input=InputManager::GetInstance();
@@ -40,7 +55,15 @@ void Bar::Update()
 		// タッチSE再生
 		PlaySoundMem(touch_se, DX_PLAYTYPE_BACK, TRUE);
 
-		if (second_cnt < 0.6f) { second_bonus += 1; }
+		if (second_cnt < 0.6f)
+		{
+			second_bonus += 1; 
+
+			int num = rand() % 4;
+			Vector2D star_center(60.0f * (float)num + 300.0f, 30.0f);
+			// 星の生成
+			CreateStar(star_center);
+		}
 		is_upper_hit = false;
 		is_bottom_hit = true;
 		cnt_bar_shake += 0.5;
@@ -52,7 +75,15 @@ void Bar::Update()
 		// タッチSE再生
 		PlaySoundMem(touch_se, DX_PLAYTYPE_BACK, TRUE);
 
-		if (second_cnt < 0.6f) { second_bonus += 1; }
+		if (second_cnt < 0.6f)
+		{
+			second_bonus += 1; 
+
+			int num = rand() % 4;
+			Vector2D star_center(60.0f * (float)num + 220.0f, 450.0f);
+			// 星の生成
+			CreateStar(star_center);
+		}
 		is_upper_hit = true;
 		is_bottom_hit = false;
 		cnt_bar_shake += 0.5;
@@ -61,6 +92,11 @@ void Bar::Update()
 
 	second_cnt += 0.1f;
 
+	for (Star* star : stars)
+	{
+		// 星の更新
+		star->Update();
+	}
 }
 
 void Bar::Draw() const
@@ -82,5 +118,27 @@ void Bar::Draw() const
 	}
 	else {
 		DrawBox(0, 440, 640, 460, 0x000000, TRUE);
+	}
+
+	for (Star* star : stars)
+	{
+		// 星の描画
+		star->Draw();
+	}
+}
+
+// 星エフェクトの生成
+void Bar::CreateStar(Vector2D center)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		// 各星の角度を計算
+		double angle = 2 * M_PI * i / 4;
+
+		// 角度から移動方向を計算
+		Vector2D direction(cosf((float)angle), sinf((float)angle));
+
+		// 星を作成し、リストに追加
+		stars.push_back(new Star(center, direction));
 	}
 }
