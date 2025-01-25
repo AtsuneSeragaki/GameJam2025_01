@@ -11,6 +11,15 @@ Bard::Bard(int num)
 	location.y = 0.0f;
 	angle = 0.0f;
 	is_hit = false;
+	int ran = GetRand(1);
+	if (ran == 0)
+	{
+		left_flg = true;
+	}
+	else
+	{
+		left_flg = false;
+	}
 
 	// リソース管理クラスのインスタンス取得
 	ResourceManager* resource = ResourceManager::GetInstance();
@@ -57,7 +66,15 @@ void Bard::Update()
 	if (is_hit == true)
 	{// 泡に当たったら横に吹き飛ばす
 
-		location.x += 20.0f;
+		if (left_flg == true)
+		{
+			location.x -= 20.0f;
+		}
+		else
+		{
+			location.x += 20.0f;
+		}
+
 		location.y -= 3.0f;
 		angle += 1.0f;
 	}

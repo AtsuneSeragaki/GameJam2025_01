@@ -385,7 +385,7 @@ void GameMainScene::InFlyUpdate()
 	{
 		bard->Update();
 
-		if (bard->GetLocation().x >= 700.0f)
+		if (bard->GetLocation().x >= 700.0f || bard->GetLocation().x <= -60.0f)
 		{
 			delete bard;
 			bard = NULL;
