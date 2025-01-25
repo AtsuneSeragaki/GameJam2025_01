@@ -8,10 +8,10 @@ private:
 	bool is_bottom_hit;//上のバーにヒットしていいか
 	bool is_upper_hit;//下のバーにヒットしていいか
 
-	float cnt_bottom_hit;//下のバーに触れられるまでのカウント
-	float cnt_upper_hit;//上のバーに触れられるまでのカウント
-
-	bool once_flg;
+	float second_cnt;//下のバーに触れられるまでのカウント
+	//float cnt_upper_hit;//上のバーに触れられるまでのカウント
+	
+	int second_bonus;
 
 public:
 	Bar();
