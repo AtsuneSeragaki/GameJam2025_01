@@ -31,6 +31,8 @@ GameMainScene::GameMainScene()
 	std::vector<int> tmp;
 	tmp = resource->GetImages("Resource/Images/GameMain/background.png");
 	background_img = tmp[0];
+	tmp = resource->GetImages("Resource/Images/GameMain/pocketsound.png");
+	pocket_sound_image = tmp[0];
 
 	background_y = -1640.0f;
 
@@ -142,8 +144,8 @@ void GameMainScene::Draw() const
 			DrawFormatString(425, 420, 0x000000, "END");
 
 			// クレジット
-			// ポケットサウンド
-			DrawFormatString(350, 460, 0x000000, "BGM/SE   MusMus / pokettosaundo");
+			DrawFormatString(380, 460, 0x000000, "BGM/SE  MusMus /");
+			DrawRotaGraph(580, 467, 0.2, 0.0, pocket_sound_image, TRUE);
 		}
 		else
 		{

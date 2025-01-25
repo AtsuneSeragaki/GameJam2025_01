@@ -57,6 +57,8 @@ private:
 	int start_font;				// スタートのフォント
 	int count_down_font;		// カウントダウンのフォント
 
+	int pocket_sound_image;		// ポケットサウンドのクレジット表記画像
+
 public:
 	GameMainScene();
 	~GameMainScene();
