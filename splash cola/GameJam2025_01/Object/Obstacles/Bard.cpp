@@ -25,27 +25,29 @@ Bard::Bard(int num)
 	ResourceManager* resource = ResourceManager::GetInstance();
 	std::vector<int> tmp;
 
+	this->num = num;
+
 	// 画像の読み込み(numの値によって読み込む画像＆拡大率を変える)
 	switch (num)
 	{
 	case 1:
 		tmp = resource->GetImages("Resource/Images/GameMain/balloon.png");
-		extrate = 3.0f;
+		extrate = 6.0f;
 		break;
 
 	case 2:
 		tmp = resource->GetImages("Resource/Images/GameMain/plane.png");
-		extrate = 4.0f;
+		extrate = 8.0f;
 		break;
 
 	case 3:
 		tmp = resource->GetImages("Resource/Images/GameMain/UFO.png");
-		extrate = 4.0f;
+		extrate = 8.0f;
 		break;
 
 	case 4:
 		tmp = resource->GetImages("Resource/Images/GameMain/sun.png");
-		extrate = 6.0f;
+		extrate = 15.0f;
 		break;
 
 	default:
@@ -81,15 +83,70 @@ void Bard::Update()
 	else
 	{// それ以外
 
-		if (location.y >= 150.0f)
-		{// 泡に当たったフラグをONにする
-
-			is_hit = true;
-		}
-		else
+		switch (num)
 		{
-			location.y += 10.0f;
+		case 1:
+			if (location.y >= 140.0f)
+			{// 泡に当たったフラグをONにする
+
+				is_hit = true;
+			}
+			else
+			{
+				location.y += 10.0f;
+			}
+			break;
+
+		case 2:
+			if (location.y >= 130.0f)
+			{// 泡に当たったフラグをONにする
+
+				is_hit = true;
+			}
+			else
+			{
+				location.y += 10.0f;
+			}
+			break;
+
+		case 3:
+			if (location.y >= 130.0f)
+			{// 泡に当たったフラグをONにする
+
+				is_hit = true;
+			}
+			else
+			{
+				location.y += 10.0f;
+			}
+			break;
+
+		case 4:
+			if (location.y >= 30.0f)
+			{// 泡に当たったフラグをONにする
+
+				is_hit = true;
+			}
+			else
+			{
+				location.y += 10.0f;
+			}
+			break;
+
+		default:
+			if (location.y >= 150.0f)
+			{// 泡に当たったフラグをONにする
+
+				is_hit = true;
+			}
+			else
+			{
+				location.y += 5.0f;
+			}
+			break;
 		}
+
+		
 	}
 }
 
@@ -97,4 +154,5 @@ void Bard::Draw() const
 {
 	// 障害物の描画
 	DrawRotaGraph2F(location.x, location.y, 16.0f,16.0f,extrate, angle, img, TRUE, 0, 0);
+	DrawFormatString(0, 150, 0x000000, "%f", extrate);
 }

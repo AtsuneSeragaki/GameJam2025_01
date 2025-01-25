@@ -390,7 +390,7 @@ void GameMainScene::InFlyUpdate()
 			delete bard;
 			bard = NULL;
 
-			if (background_y >= -(1640 - bubble_height))
+			if (background_y >= -(1640 - bubble_height) || hit_num >= 4 )
 			{
 				game_state = GameState::result;
 			}
