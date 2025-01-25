@@ -3,11 +3,26 @@
 
 GameMainScene::GameMainScene()
 {
+	game_state = GameState::start;
+
+	fps_count = 0;
+	start_count = 3;
+	timer = 10;			// 10秒でリザルト表示
 	game_state = GameState::in_game;
+	bar = new Bar;
 }
 
 GameMainScene::~GameMainScene()
 {
+	delete bar;
+}
+
+// 初期化処理
+void GameMainScene::Initialize()
+{
+	fps_count = 0;
+	start_count = 3;
+	timer = 10;			// 10秒でリザルト表示
 }
 
 void GameMainScene::Update()
@@ -33,9 +48,12 @@ void GameMainScene::Draw() const
 	{
 	case GameState::start:
 		DrawFormatString(0, 20, 0xffffff, "Start");
+		DrawFormatString(0, 200, 0xffffff, "count: %d",start_count);
 		break;
 	case GameState::in_game:
-		DrawFormatString(0, 20, 0x000000, "InGame");
+		DrawFormatString(0, 20, 0xffffff, "InGame");
+		DrawFormatString(0, 200, 0xffffff, "timer: %d", timer);
+		bar->Draw();
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
@@ -50,11 +68,42 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InStartUpdate()
 {
-	
+	if (fps_count < 60)
+	{
+		fps_count++;
+	}
+	else
+	{
+		start_count--;
+		fps_count = 0;
+	}
+
+	if (start_count < 0)
+	{
+		// ゲーム開始
+		game_state = GameState::in_game;
+	}
 }
 
 void GameMainScene::InGameUpdate()
 {
+	if (fps_count < 60)
+	{
+		fps_count++;
+	}
+	else
+	{
+		timer--;
+		fps_count = 0;
+	}
+
+	if (timer < 0)
+	{
+		// ゲーム終了・リザルトへ
+		game_state = GameState::result;
+	}
+
+	bar->Update();
 }
 
 void GameMainScene::InGameResultUpdate()
