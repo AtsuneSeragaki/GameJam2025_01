@@ -25,10 +25,11 @@ public:
 
 private:
 	//プレイ中
-	void InGameUpdate();//ゲームプレイ中のアップデート
 	void InStartUpdate();//ゲームスタートのアップデート
+	void InGameUpdate();//ゲームプレイ中のアップデート
 	void InGameResultUpdate();//ゲームクリアアップデート
 
+	
 
 };
 

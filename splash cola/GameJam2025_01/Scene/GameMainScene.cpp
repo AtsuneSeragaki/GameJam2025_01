@@ -29,6 +29,18 @@ void GameMainScene::Update()
 void GameMainScene::Draw() const
 {
 	DrawFormatString(0, 0, 0xffffff, "GameMain");
+	switch (game_state)
+	{
+	case GameState::start:
+		DrawFormatString(0, 20, 0xffffff, "Start");
+		break;
+	case GameState::in_game:
+		DrawFormatString(0, 20, 0xffffff, "InGame");
+		break;
+	case GameState::result:
+		DrawFormatString(0, 20, 0xffffff, "Result");
+		break;
+	}
 }
 
 AbstractScene* GameMainScene::Change()
@@ -36,14 +48,17 @@ AbstractScene* GameMainScene::Change()
 	return this;
 }
 
-void GameMainScene::InGameUpdate()
-{
-}
-
 void GameMainScene::InStartUpdate()
 {
+
+}
+
+void GameMainScene::InGameUpdate()
+{
+
 }
 
 void GameMainScene::InGameResultUpdate()
 {
+
 }
