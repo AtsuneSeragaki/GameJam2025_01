@@ -44,8 +44,6 @@ GameMainScene::GameMainScene()
 	ChangeVolumeSoundMem(255, end_se);
 
 	play_count_down_se = true;
-}
-
 
 	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
 	for (int i = 0; i < 1; i++)
@@ -58,6 +56,7 @@ GameMainScene::GameMainScene()
 	bubble_location.y = 150.0f;
 	bubble_num = 0;
 }
+
 
 GameMainScene::~GameMainScene()
 {
