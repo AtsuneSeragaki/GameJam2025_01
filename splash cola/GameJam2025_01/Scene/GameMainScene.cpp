@@ -39,7 +39,7 @@ GameMainScene::GameMainScene()
 	in_game_bgm = resource->GetSounds("Resource/Sounds/BGM/MusMus-BGM.mp3");
 	count_down_se = resource->GetSounds("Resource/Sounds/SE/count_down.mp3");
 	start_se = resource->GetSounds("Resource/Sounds/SE/start.mp3");
-	end_se = resource->GetSounds("Resource/Sounds/SE/end.mp3");
+	end_se = resource->GetSounds("Resource/Sounds/SE/open.mp3");
 
 	// 音量調整
 	ChangeVolumeSoundMem(100, in_game_bgm);
@@ -143,9 +143,13 @@ void GameMainScene::Draw() const
 		{
 			// プレイ・エンドボタンの描画
 			DrawBox(150, 400, 250, 450, left_button_color, TRUE);
-			DrawFormatString(170, 420, 0x000000, "PLAY");
+			DrawFormatString(180, 420, 0x000000, "PLAY");
 			DrawBox(390, 400, 490, 450, right_button_color, TRUE);
-			DrawFormatString(410, 420, 0x000000, "END");
+			DrawFormatString(425, 420, 0x000000, "END");
+
+			// クレジット
+			// ポケットサウンド
+			DrawFormatString(350, 460, 0x000000, "BGM/SE   MusMus / pokettosaundo");
 		}
 		else
 		{
@@ -199,15 +203,9 @@ void GameMainScene::Draw() const
 	case GameState::result:
 		// リトライ・タイトルボタンの描画
 		DrawBox(150, 400, 250, 450, left_button_color, TRUE);
-		DrawFormatString(170, 420, 0x000000, "RETRY");
+		DrawFormatString(180, 420, 0x000000, "RETRY");
 		DrawBox(390, 400, 490, 450, right_button_color, TRUE);
-		DrawFormatString(410, 420, 0x000000, "TITLE");
-
-		// クレジット
-		// ポケットサウンド
-		DrawFormatString(0, 460, 0xffffff, "BGM/SE");
-		DrawFormatString(100, 460, 0xffffff, "MusMus");
-		DrawFormatString(300, 460, 0xffffff, "pokettosaundo");
+		DrawFormatString(420, 420, 0x000000, "TITLE");
 
 		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
 
@@ -292,8 +290,8 @@ void GameMainScene::InGameUpdate()
 
 	if (timer <= 0)
 	{
-		// ゲーム終了SE再生
-		PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
+		//// ゲーム終了SE再生
+		//PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
 		//スコア算出
 		score = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2);
 		player->ResultUpdate();
