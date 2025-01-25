@@ -25,6 +25,11 @@ private:
 	class Bar* bar;//上と下の判定のバー
 
 	class Player* player; // プレイヤー
+
+	int background_img;  // 背景画像
+
+	float background_y; // 背景Y座標
+
 public:
 	GameMainScene();
 	~GameMainScene();

@@ -5,6 +5,8 @@
 #include "../Object/Player/Player.h"
 
 #include "../Utility/InputManager.h"
+#include "../Utility/ResourceManager.h"
+#include <vector>
 
 GameMainScene::GameMainScene()
 {
@@ -16,6 +18,13 @@ GameMainScene::GameMainScene()
 	button_color = 0xffffff;
 	bar = new Bar;
 	player = new Player();
+	
+	ResourceManager* resource = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+	tmp = resource->GetImages("Resource/Images/GameMain/background.png");
+	background_img = tmp[0];
+
+	background_y = -1640.0f;
 }
 
 GameMainScene::~GameMainScene()
@@ -33,6 +42,7 @@ void GameMainScene::Initialize()
 	button_color = 0xffffff;
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 	bar->Initialize();
+	background_y = -1640.0f;
 }
 
 void GameMainScene::Update()
@@ -70,6 +80,8 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::in_game:
 		DrawBox(0, 0, 640, 480, 0xffffff,TRUE);
+		DrawGraphF(0.0f, background_y, background_img, TRUE);
+		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
 		DrawFormatString(0, 20, 0x000000, "InGame");
 		DrawFormatString(0, 200, 0x000000, "timer: %d", timer);
 		bar->Draw();
@@ -127,6 +139,11 @@ void GameMainScene::InGameUpdate()
 
 	bar->Update();
 	player->Update();
+
+	if (background_y < 0)
+	{
+		background_y += 3.0f;
+	}
 }
 
 void GameMainScene::InGameResultUpdate()
