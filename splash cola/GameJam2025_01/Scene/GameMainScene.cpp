@@ -137,9 +137,13 @@ void GameMainScene::Draw() const
 		{
 			// プレイ・エンドボタンの描画
 			DrawBox(150, 400, 250, 450, left_button_color, TRUE);
-			DrawFormatString(170, 420, 0x000000, "PLAY");
+			DrawFormatString(180, 420, 0x000000, "PLAY");
 			DrawBox(390, 400, 490, 450, right_button_color, TRUE);
-			DrawFormatString(410, 420, 0x000000, "END");
+			DrawFormatString(425, 420, 0x000000, "END");
+
+			// クレジット
+			// ポケットサウンド
+			DrawFormatString(350, 460, 0x000000, "BGM/SE   MusMus / pokettosaundo");
 		}
 		else
 		{
@@ -188,15 +192,9 @@ void GameMainScene::Draw() const
 	case GameState::result:
 		// リトライ・タイトルボタンの描画
 		DrawBox(150, 400, 250, 450, left_button_color, TRUE);
-		DrawFormatString(170, 420, 0x000000, "RETRY");
+		DrawFormatString(180, 420, 0x000000, "RETRY");
 		DrawBox(390, 400, 490, 450, right_button_color, TRUE);
-		DrawFormatString(410, 420, 0x000000, "TITLE");
-
-		// クレジット
-		// ポケットサウンド
-		DrawFormatString(0, 460, 0xffffff, "BGM/SE");
-		DrawFormatString(100, 460, 0xffffff, "MusMus");
-		DrawFormatString(300, 460, 0xffffff, "pokettosaundo");
+		DrawFormatString(420, 420, 0x000000, "TITLE");
 
 		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
 
