@@ -1,6 +1,9 @@
 #include "GameMainScene.h"
 #include "DxLib.h"
 
+#include "../Object/CheckMouse/Bar.h"
+#include "../Object/Player/Player.h"
+
 GameMainScene::GameMainScene()
 {
 	game_state = GameState::start;
@@ -8,13 +11,14 @@ GameMainScene::GameMainScene()
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;			// 10秒でリザルト表示
-	game_state = GameState::in_game;
 	bar = new Bar;
+	player = new Player();
 }
 
 GameMainScene::~GameMainScene()
 {
 	delete bar;
+	delete player;
 }
 
 // 初期化処理
@@ -48,12 +52,22 @@ void GameMainScene::Draw() const
 	{
 	case GameState::start:
 		DrawFormatString(0, 20, 0xffffff, "Start");
-		DrawFormatString(0, 200, 0xffffff, "count: %d",start_count);
+		DrawFormatString(0, 180, 0xffffff, "Shake the cola!!!");
+		if (start_count > 0)
+		{
+			DrawFormatString(0, 200, 0xffffff, "count: %d", start_count);
+		}
+		else
+		{
+			DrawFormatString(0, 200, 0xffffff, "start!!!");
+		}
 		break;
 	case GameState::in_game:
-		DrawFormatString(0, 20, 0xffffff, "InGame");
-		DrawFormatString(0, 200, 0xffffff, "timer: %d", timer);
+		DrawBox(0, 0, 640, 480, 0xffffff,TRUE);
+		DrawFormatString(0, 20, 0x000000, "InGame");
+		DrawFormatString(0, 200, 0x000000, "timer: %d", timer);
 		bar->Draw();
+		player->Draw();
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
@@ -104,6 +118,7 @@ void GameMainScene::InGameUpdate()
 	}
 
 	bar->Update();
+	player->Update();
 }
 
 void GameMainScene::InGameResultUpdate()
