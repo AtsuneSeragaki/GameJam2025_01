@@ -92,6 +92,9 @@ void Player::Update()
 
 void Player::Draw() const
 {
+	//DrawCircle(location.x, 240, 80, 0x000000, TRUE);
+	DrawOval(location.x, 230, 80, 60, 0x000000, TRUE);
+	DrawOval(location.x, 250, 20, 60, 0x000000, TRUE);
 	// プレイヤー画像描画
 	DrawRotaGraph2F(location.x, 312.0f, 640.0f,150.0f,1.0, PI / 180 * angle, img, TRUE, 0);
 }
