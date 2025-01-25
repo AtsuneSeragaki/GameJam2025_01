@@ -4,10 +4,12 @@
 GameMainScene::GameMainScene()
 {
 	game_state = GameState::in_game;
+	bar = new Bar;
 }
 
 GameMainScene::~GameMainScene()
 {
+	delete bar;
 }
 
 void GameMainScene::Update()
@@ -36,6 +38,7 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::in_game:
 		DrawFormatString(0, 20, 0xffffff, "InGame");
+		bar->Draw();
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
@@ -55,7 +58,7 @@ void GameMainScene::InStartUpdate()
 
 void GameMainScene::InGameUpdate()
 {
-
+	bar->Update();
 }
 
 void GameMainScene::InGameResultUpdate()
