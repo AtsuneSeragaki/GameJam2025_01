@@ -3,6 +3,7 @@
 
 #include "../Object/CheckMouse/Bar.h"
 #include "../Object/Player/Player.h"
+#include "../Object/Obstacles/Bard.h"
 
 #include "../Utility/ResourceManager.h"
 #include "../Utility/InputManager.h"
@@ -26,6 +27,7 @@ GameMainScene::GameMainScene()
 
 	bar = new Bar;
 	player = new Player();
+	bard = NULL;
 	
 	ResourceManager* resource = ResourceManager::GetInstance();
 	std::vector<int> tmp;
@@ -66,6 +68,9 @@ GameMainScene::GameMainScene()
 	up_bubble = 0.0f;
 
 	score = 0;
+
+	bubble_height = 0.0f;
+	amount_y = 0;
 }
 
 
@@ -73,6 +78,7 @@ GameMainScene::~GameMainScene()
 {
 	delete bar;
 	delete player;
+	delete bard;
 
 	// 作成したフォントデータを削除する
 	DeleteFontToHandle(explanation_font);
@@ -178,8 +184,13 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::in_fly:
 		DrawGraphF(0.0f, background_y, background_img, TRUE);
-		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
-
+		DrawFormatString(0, 50, 0x000000, " background_y:%d", amount_y);
+		
+		if (bard != NULL)
+		{
+			DrawFormatString(0, 70, 0x000000, " bard_y:%f", bard->GetLocation().x);
+			bard->Draw();
+		}
 		DrawExtendGraph(bubble_location.x-30.0f,480.0f -up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
 		// 制限時間の描画
 		DrawFormatString(0, 100, 0x000000, "score: %f", (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2));
@@ -313,6 +324,35 @@ void GameMainScene::InFlyUpdate()
 		bubble_num = 0;
 	}
 
+	if (background_y < -(1640.0f - bubble_height))
+	{
+		if (background_y < -149.0f)
+		{
+			background_y += 10.0f;
+		}
+		
+		amount_y += 30;
+	}
+
+	if (amount_y % 10 == 0 && bard == NULL)
+	{
+		bard = new Bard();
+	}
+	else if(bard != NULL)
+	{
+		bard->Update();
+
+		if (bard->GetLocation().x >= 700.0f)
+		{
+			delete bard;
+			bard = NULL;
+
+			if (background_y >= -(1640 - bubble_height))
+			{
+				game_state = GameState::result;
+			}
+		}
+	}
 }
 
 void GameMainScene::InGameResultUpdate()
@@ -341,6 +381,11 @@ void GameMainScene::ColaBubbleUpdate()
 		}
 		else
 		{
+			/*ResourceManager* resource = ResourceManager::GetInstance();
+			std::vector<int> tmp;
+			tmp = resource->GetImages("Resource/Images/GameMain/background2.png");
+			background_img = tmp[0];*/
+			bubble_height = bar->GetCntBarShake() * 30.0f;
 			game_state = GameState::in_fly;
 		}
 	}

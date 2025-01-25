@@ -45,6 +45,9 @@
     <ClCompile Include="Object\Player\Player.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Object\Obstacles\Bard.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility\InputManager.h">
@@ -80,5 +83,37 @@
     <ClInclude Include="Object\Player\Player.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="Object\Obstacles\Bard.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resource\Images\GameMain\background.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\background2.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\bard.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Cola\Geyser.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Cola\kan2.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Cola\kan.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Cola\kan3.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Cola\kan4.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resource\dat\ranking_data.txt" />
   </ItemGroup>
 </Project>

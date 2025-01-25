@@ -57,6 +57,12 @@ private:
 	int start_font;				// スタートのフォント
 	int count_down_font;		// カウントダウンのフォント
 
+	float bubble_height; // 泡の高さ
+
+	class Bard* bard; // 障害物(鳥)
+
+	int amount_y; // 増やしたY座標の値
+
 public:
 	GameMainScene();
 	~GameMainScene();
