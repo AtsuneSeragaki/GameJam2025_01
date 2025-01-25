@@ -8,6 +8,7 @@ private:
 	Vector2D location;
 	double angle;
 	int img;
+	bool is_hit;
 
 public:
 	Bard();
