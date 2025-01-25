@@ -14,13 +14,22 @@ Bar::~Bar()
 {
 }
 
+void Bar::Initialize()
+{
+	cnt_bar_shake = 0;
+	is_bottom_hit = true;
+	is_upper_hit = true;
+	second_cnt = 0.0f;
+	second_bonus = 0;
+}
+
 void Bar::Update()
 {
 	InputManager* input=InputManager::GetInstance();
 	
 	if (input->GetMouseLocation().y < 20 && is_upper_hit==true)
 	{
-		if (second_cnt < 3.0f) { second_bonus += 1; }
+		if (second_cnt < 0.6f) { second_bonus += 1; }
 		is_upper_hit = false;
 		is_bottom_hit = true;
 		cnt_bar_shake += 0.5;
@@ -29,7 +38,7 @@ void Bar::Update()
 
 	if (input->GetMouseLocation().y > 440 && is_bottom_hit==true)
 	{
-		if (second_cnt < 3.0f) { second_bonus += 1; }
+		if (second_cnt < 0.6f) { second_bonus += 1; }
 		is_upper_hit = true;
 		is_bottom_hit = false;
 		cnt_bar_shake += 0.5;

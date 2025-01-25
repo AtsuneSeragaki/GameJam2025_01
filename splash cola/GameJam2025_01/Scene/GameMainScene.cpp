@@ -32,6 +32,7 @@ void GameMainScene::Initialize()
 	timer = 10;			// 10秒でリザルト表示
 	button_color = 0xffffff;
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
+	bar->Initialize();
 }
 
 void GameMainScene::Update()

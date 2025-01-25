@@ -17,6 +17,7 @@ public:
 	Bar();
 	~Bar();
 
+	void Initialize();
 	void Update();
 	void Draw() const;
 };
