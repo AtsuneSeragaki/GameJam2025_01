@@ -154,6 +154,7 @@
     <ClCompile Include="Scene\GameMainScene.cpp" />
     <ClCompile Include="Object\Ranking\RankingData.cpp" />
     <ClCompile Include="Scene\SceneManager.cpp" />
+    <ClCompile Include="Object\Star\Star.cpp" />
     <ClCompile Include="Utility\FPS.cpp" />
     <ClCompile Include="Utility\InputManager.cpp" />
     <ClCompile Include="Utility\ResourceManager.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Object\Ranking\RankingData.h" />
     <ClInclude Include="Scene\AbstractScene.h" />
     <ClInclude Include="Scene\SceneManager.h" />
+    <ClInclude Include="Object\Star\Star.h" />
     <ClInclude Include="Utility\FPS.h" />
     <ClInclude Include="Utility\InputManager.h" />
     <ClInclude Include="Utility\ResourceManager.h" />
