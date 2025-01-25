@@ -6,6 +6,7 @@
 
 #include "../Utility/InputManager.h"
 #include "../Utility/ResourceManager.h"
+#include <vector>
 
 GameMainScene::GameMainScene()
 {
@@ -22,9 +23,14 @@ GameMainScene::GameMainScene()
 
 	bar = new Bar;
 	player = new Player();
+	
+	ResourceManager* resource = ResourceManager::GetInstance();
+	std::vector<int> tmp;
+	tmp = resource->GetImages("Resource/Images/GameMain/background.png");
+	background_img = tmp[0];
 
-	// ResourceManagerのインスタンスを取得
-	ResourceManager* rm = ResourceManager::GetInstance();
+	background_y = -1640.0f;
+
 	in_game_bgm = rm->GetSounds("Resource/Sounds/BGM/MusMus-BGM.mp3");
 	count_down_se = rm->GetSounds("Resource/Sounds/SE/count_down.mp3");
 	start_se = rm->GetSounds("Resource/Sounds/SE/start.mp3");
@@ -55,6 +61,7 @@ void GameMainScene::Initialize()
 	end_button_color = 0xffffff;
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 	bar->Initialize();
+	background_y = -1640.0f;
 
 	play_count_down_se = true;
 }
@@ -105,6 +112,8 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::in_game:
 		DrawBox(0, 0, 640, 480, 0xffffff,TRUE);
+		DrawGraphF(0.0f, background_y, background_img, TRUE);
+		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
 		DrawFormatString(0, 20, 0x000000, "InGame");
 
 		// 制限時間の描画
@@ -199,6 +208,11 @@ void GameMainScene::InGameUpdate()
 
 	bar->Update();
 	player->Update();
+
+	if (background_y < 0)
+	{
+		background_y += 3.0f;
+	}
 }
 
 void GameMainScene::InGameResultUpdate()

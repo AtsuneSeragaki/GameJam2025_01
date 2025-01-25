@@ -30,6 +30,11 @@ private:
 
 	class Player* player; // プレイヤー
 
+	int background_img;  // 背景画像
+
+	float background_y; // 背景Y座標
+
+
 	int in_game_bgm;			// インゲームのBGM
 	int count_down_se;			// スタートのカウントダウンSE
 	int start_se;				// ゲーム開始SE
