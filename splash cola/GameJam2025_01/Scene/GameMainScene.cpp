@@ -35,7 +35,7 @@ void GameMainScene::Draw() const
 		DrawFormatString(0, 20, 0xffffff, "Start");
 		break;
 	case GameState::in_game:
-		DrawFormatString(0, 20, 0xffffff, "InGame");
+		DrawFormatString(0, 20, 0x000000, "InGame");
 		break;
 	case GameState::result:
 		DrawFormatString(0, 20, 0xffffff, "Result");
@@ -50,12 +50,11 @@ AbstractScene* GameMainScene::Change()
 
 void GameMainScene::InStartUpdate()
 {
-
+	
 }
 
 void GameMainScene::InGameUpdate()
 {
-
 }
 
 void GameMainScene::InGameResultUpdate()

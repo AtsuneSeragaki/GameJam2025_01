@@ -15,6 +15,7 @@ class GameMainScene :
 {
 private:
 	GameState game_state;//現在のゲームメインの状態
+
 public:
 	GameMainScene();
 	~GameMainScene();
