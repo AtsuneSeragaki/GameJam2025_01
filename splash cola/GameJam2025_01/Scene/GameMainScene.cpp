@@ -26,7 +26,7 @@ GameMainScene::GameMainScene()
 	
 	ResourceManager* resource = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = resource->GetImages("Resource/Images/GameMain/background.png");
+	tmp = resource->GetImages("Resource/Images/GameMain/background2.png");
 	background_img = tmp[0];
 
 	background_y = -1640.0f;
@@ -112,7 +112,7 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::in_game:
 		DrawBox(0, 0, 640, 480, 0xffffff,TRUE);
-		DrawGraphF(0.0f, background_y, background_img, TRUE);
+		DrawGraphF(0.0f, background_y, background_img, FALSE);
 		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
 		DrawFormatString(0, 20, 0x000000, "InGame");
 
