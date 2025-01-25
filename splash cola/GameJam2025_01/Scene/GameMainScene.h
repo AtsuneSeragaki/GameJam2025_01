@@ -33,6 +33,7 @@ private:
 	int in_game_bgm;			// インゲームのBGM
 	int count_down_se;			// スタートのカウントダウンSE
 	int start_se;				// ゲーム開始SE
+	int end_se;					// ゲーム終了SE
 
 	bool play_count_down_se;	// スタートのカウントダウンSE再生フラグ
 

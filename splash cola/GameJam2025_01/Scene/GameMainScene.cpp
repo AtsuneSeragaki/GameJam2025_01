@@ -28,11 +28,13 @@ GameMainScene::GameMainScene()
 	in_game_bgm = rm->GetSounds("Resource/Sounds/BGM/MusMus-BGM.mp3");
 	count_down_se = rm->GetSounds("Resource/Sounds/SE/count_down.mp3");
 	start_se = rm->GetSounds("Resource/Sounds/SE/start.mp3");
+	end_se = rm->GetSounds("Resource/Sounds/SE/end.mp3");
 
 	// 音量調整
 	ChangeVolumeSoundMem(120, in_game_bgm);
 	ChangeVolumeSoundMem(255, count_down_se);
 	ChangeVolumeSoundMem(255, start_se);
+	ChangeVolumeSoundMem(255, end_se);
 
 	play_count_down_se = true;
 }
@@ -188,6 +190,9 @@ void GameMainScene::InGameUpdate()
 
 	if (timer < 0)
 	{
+		// ゲーム終了SE再生
+		PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
+
 		// ゲーム終了・リザルトへ
 		game_state = GameState::result;
 	}
