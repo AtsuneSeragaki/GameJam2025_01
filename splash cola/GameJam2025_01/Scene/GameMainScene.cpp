@@ -79,6 +79,8 @@ void GameMainScene::Draw() const
 		DrawFormatString(0, 20, 0xffffff, "Result");
 		DrawBox(200, 200, 300, 250, button_color, TRUE);
 		DrawFormatString(220, 220, 0x000000, "retry");
+		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
+
 		break;
 	}
 }
@@ -131,6 +133,9 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InGameResultUpdate()
 {
+	//DrawFormatString(340, 60, 0xffffff, "Score%d",);
+
+
 	// リトライボタンの更新処理
 	RetryButtonUpdate();
 }
