@@ -11,7 +11,7 @@ private:
 	bool is_hit;
 
 public:
-	Bard();
+	Bard(int num);
 	~Bard();
 
 public:

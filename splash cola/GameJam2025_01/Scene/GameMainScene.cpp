@@ -76,6 +76,8 @@ GameMainScene::GameMainScene()
 	amount_y = 0;
 
 	total_fps_count = 0;
+
+	hit_num = 0;
 }
 
 
@@ -106,6 +108,7 @@ void GameMainScene::Initialize()
 
 	play_count_down_se = true;
 	total_fps_count = 0;
+	hit_num = 0;
 }
 
 void GameMainScene::Update()
@@ -348,12 +351,13 @@ void GameMainScene::InFlyUpdate()
 			background_y += 10.0f;
 		}
 		
-		amount_y += 30;
+		amount_y += 50;
 	}
 
 	if (amount_y % 10 == 0 && bard == NULL)
 	{
-		bard = new Bard();
+		bard = new Bard(hit_num);
+		hit_num++;
 	}
 	else if(bard != NULL)
 	{
@@ -402,7 +406,7 @@ void GameMainScene::ColaBubbleUpdate()
 			std::vector<int> tmp;
 			tmp = resource->GetImages("Resource/Images/GameMain/background2.png");
 			background_img = tmp[0];*/
-			bubble_height = bar->GetCntBarShake() * 30.0f;
+			bubble_height = bar->GetCntBarShake() * 50.0f;
 			game_state = GameState::in_fly;
 		}
 	}

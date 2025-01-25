@@ -182,8 +182,12 @@
     <Image Include="Resource\Cola\kan4.png" />
     <Image Include="Resource\Images\GameMain\background.png" />
     <Image Include="Resource\Images\GameMain\background2.png" />
+    <Image Include="Resource\Images\GameMain\balloon.png" />
     <Image Include="Resource\Images\GameMain\bard.png" />
+    <Image Include="Resource\Images\GameMain\plane.png" />
     <Image Include="Resource\Images\GameMain\pocketsound.png" />
+    <Image Include="Resource\Images\GameMain\sun.png" />
+    <Image Include="Resource\Images\GameMain\UFO.png" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resource\dat\ranking_data.txt" />

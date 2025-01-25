@@ -67,6 +67,8 @@ private:
 
 	int amount_y; // 増やしたY座標の値
 
+	int hit_num; // 障害物に当たった数
+
 public:
 	GameMainScene();
 	~GameMainScene();

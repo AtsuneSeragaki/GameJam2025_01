@@ -118,6 +118,18 @@
     <Image Include="Resource\Images\GameMain\pocketsound.png">
       <Filter>リソース ファイル</Filter>
     </Image>
+    <Image Include="Resource\Images\GameMain\balloon.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\plane.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\sun.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
+    <Image Include="Resource\Images\GameMain\UFO.png">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resource\dat\ranking_data.txt" />

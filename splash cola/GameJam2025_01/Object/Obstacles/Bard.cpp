@@ -4,7 +4,7 @@
 #include "DxLib.h"
 #include <vector>
 
-Bard::Bard()
+Bard::Bard(int num)
 {
 	location.x = 320.0f;
 	location.y = 0.0f;
@@ -13,7 +13,30 @@ Bard::Bard()
 
 	ResourceManager* resource = ResourceManager::GetInstance();
 	std::vector<int> tmp;
-	tmp = resource->GetImages("Resource/Images/GameMain/bard.png");
+
+	switch (num)
+	{
+	case 1:
+		tmp = resource->GetImages("Resource/Images/GameMain/balloon.png");
+		break;
+
+	case 2:
+		tmp = resource->GetImages("Resource/Images/GameMain/plane.png");
+		break;
+
+	case 3:
+		tmp = resource->GetImages("Resource/Images/GameMain/UFO.png");
+		break;
+
+	case 4:
+		tmp = resource->GetImages("Resource/Images/GameMain/sun.png");
+		break;
+
+	default:
+		tmp = resource->GetImages("Resource/Images/GameMain/bard.png");
+		break;
+	}
+	
 	img = tmp[0];
 }
 
@@ -38,7 +61,7 @@ void Bard::Update()
 {
 	if (is_hit == true)
 	{
-		location.x += 10.0f;
+		location.x += 20.0f;
 		location.y -= 3.0f;
 		angle += 1.0f;
 	}
@@ -50,13 +73,13 @@ void Bard::Update()
 		}
 		else
 		{
-			location.y += 7.0f;
+			location.y += 10.0f;
 		}
 	}
 }
 
 void Bard::Draw() const
 {
-	DrawRotaGraph2F(location.x, location.y, 20, 20, 1.0f, angle, img, TRUE, 0, 0);
+	DrawRotaGraph2F(location.x, location.y, 20, 20, 2.0f, angle, img, TRUE, 0, 0);
 	//DrawBox(location.x - 20.0f, location.y - 20.0f, location.x + 20.0f, location.y + 20.0f, 0xff0000, TRUE);
 }
