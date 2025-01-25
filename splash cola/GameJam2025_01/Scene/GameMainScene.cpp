@@ -8,7 +8,6 @@ GameMainScene::GameMainScene()
 	fps_count = 0;
 	start_count = 3;
 	timer = 10;			// 10秒でリザルト表示
-	game_state = GameState::in_game;
 	bar = new Bar;
 }
 
