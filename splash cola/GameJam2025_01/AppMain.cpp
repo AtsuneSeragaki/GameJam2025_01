@@ -2,6 +2,7 @@
 #include "Utility/FPS.h"
 #include "Scene/GameMainScene.h"
 #include "Scene/SceneManager.h"
+#include "Utility/ResourceManager.h"
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 
@@ -47,6 +48,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		ScreenFlip();
 
 	}
+
+	// ResourceManagerのインスタンスを取得
+	ResourceManager* rm = ResourceManager::GetInstance();
+	// 読み込んだ画像、音源の削除処理
+	rm->UnloadResourcesAll();
 
 	DxLib_End();
 

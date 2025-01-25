@@ -29,6 +29,13 @@ private:
 	class Bar* bar;//上と下の判定のバー
 
 	class Player* player; // プレイヤー
+
+	int in_game_bgm;			// インゲームのBGM
+	int count_down_se;			// スタートのカウントダウンSE
+	int start_se;				// ゲーム開始SE
+
+	bool play_count_down_se;	// スタートのカウントダウンSE再生フラグ
+
 public:
 	GameMainScene();
 	~GameMainScene();
