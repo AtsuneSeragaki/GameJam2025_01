@@ -57,6 +57,8 @@ GameMainScene::GameMainScene()
 	bubble_num = 0;
 	bubble_cnt = 0;
 	up_bubble = 0.0f;
+
+	score = 0;
 }
 
 
@@ -151,8 +153,11 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::in_fly:
 		DrawGraphF(0.0f, background_y, background_img, TRUE);
+		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
 
 		DrawExtendGraph(bubble_location.x-30.0f,480.0f -up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
+		// 制限時間の描画
+		DrawFormatString(0, 100, 0x000000, "score: %f", (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2));
 
 		break;
 	case GameState::result:
@@ -244,7 +249,8 @@ void GameMainScene::InGameUpdate()
 	{
 		// ゲーム終了SE再生
 		PlaySoundMem(end_se, DX_PLAYTYPE_BACK);
-
+		//スコア算出
+		score = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2);
 		player->ResultUpdate();
 		ColaBubbleUpdate();
 		return;
@@ -253,10 +259,7 @@ void GameMainScene::InGameUpdate()
 	bar->Update();
 	player->Update();
 
-	if (background_y < 0)
-	{
-		background_y += 3.0f;
-	}
+
 }
 
 void GameMainScene::InFlyUpdate()
@@ -275,7 +278,7 @@ void GameMainScene::InFlyUpdate()
 	{
 		bubble_num = 0;
 	}
-	
+
 }
 
 void GameMainScene::InGameResultUpdate()
@@ -293,7 +296,8 @@ void GameMainScene::InGameResultUpdate()
 void GameMainScene::ColaBubbleUpdate()
 {
 	//高さ　（振った回数×２）＋（bonus＊２）*-10
-	int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2)*-100;
+	int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2)*-10;
+
 
 	if (player->GetColaNum() >= 2)
 	{

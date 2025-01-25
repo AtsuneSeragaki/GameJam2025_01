@@ -50,6 +50,7 @@ private:
 	Vector2D bubble_location;
 	float up_bubble;
 	
+	float score;
 
 public:
 	GameMainScene();
