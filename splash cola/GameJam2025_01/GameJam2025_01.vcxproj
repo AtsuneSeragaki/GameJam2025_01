@@ -178,6 +178,7 @@
     <ClInclude Include="Utility\Vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="IconFile\icon.ico" />
     <Image Include="Resource\Cola\Geyser.png" />
     <Image Include="Resource\Cola\kan.png" />
     <Image Include="Resource\Cola\kan1.png" />
@@ -213,9 +214,6 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IconFile\Icon.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconFile\RCa20428" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

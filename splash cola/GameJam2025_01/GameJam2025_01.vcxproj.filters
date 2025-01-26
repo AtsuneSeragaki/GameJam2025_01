@@ -142,6 +142,9 @@
     <Image Include="Resource\Images\GameMain\UFO.png">
       <Filter>リソース ファイル</Filter>
     </Image>
+    <Image Include="IconFile\icon.ico">
+      <Filter>リソース ファイル</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Resource\dat\ranking_data.txt" />
@@ -165,8 +168,5 @@
     <ResourceCompile Include="IconFile\Icon.rc">
       <Filter>リソース ファイル</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IconFile\RCa20428" />
   </ItemGroup>
 </Project>
