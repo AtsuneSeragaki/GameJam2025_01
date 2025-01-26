@@ -46,8 +46,11 @@ void RankingData::Finalize()
 
 void RankingData::SetRankingData(int score)
 {
-	this->score[2] = score;
-
+	if (this->score[2] < score)
+	{
+		this->score[2] = score;
+	}
+	
 	SortData();
 }
 

@@ -257,6 +257,13 @@ void GameMainScene::Draw() const
 		DrawStringToHandle(85, 350, "MyScore", 0x000000, ranking_font);
 		DrawStringToHandle(250, 350, buf_score, 0x000000, ranking_font);
 
+		for (int i = 0; i < RANKING_DATA; i++)
+		{
+			DrawFormatString(300 + i * 30, 100, 0xffffff, "%d", ranking_data->GetScore(i));
+		}
+
+		DrawFormatString(300, 130, 0xffffff, "myscore : %f", score);
+
 		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
 
 		break;
@@ -458,7 +465,7 @@ void GameMainScene::ColaBubbleUpdate()
 			tmp = resource->GetImages("Resource/Images/GameMain/background2.png");
 			background_img = tmp[0];*/
 			bubble_height = bar->GetCntBarShake() * 50.0f;
-			ranking_data->SetRankingData(score);//スコアをランキングに
+			ranking_data->SetRankingData((int)score);//スコアをランキングに
 			game_state = GameState::in_fly;
 			bar->Finalize();
 		}
