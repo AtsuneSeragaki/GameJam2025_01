@@ -91,7 +91,6 @@ GameMainScene::GameMainScene()
 	fade_alpha = 255;
 
 	hit_num = 0;
-	hit_num_max = 0;
 }
 
 
@@ -126,7 +125,17 @@ void GameMainScene::Initialize()
 	total_fps_count = 0;
 
 	hit_num = 0;
-	hit_num_max = 0;
+
+	bubble_location.x = 280.0f;
+	bubble_location.y = 180.0f;
+	bubble_num = 0;
+	bubble_cnt = 0;
+	up_bubble = 0.0f;
+
+	score = 0;
+
+	bubble_height = 0.0f;
+
 }
 
 void GameMainScene::Update()
@@ -225,24 +234,22 @@ void GameMainScene::Draw() const
 			player->Draw();
 		}
 		else {
-			int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2) * -100;
-			DrawFormatString(0, 100, 0x000000, "score: %d",score_height);
 
-			DrawExtendGraph(bubble_location.x, bubble_location.y, 360.0f, 180.0f, bubble_img[bubble_num], TRUE);
+			DrawExtendGraphF(bubble_location.x, bubble_location.y, 360.0f, 180.0f, bubble_img[bubble_num], TRUE);
 			player->ResultDraw();
 		}
 		break;
 	case GameState::in_fly:
 		DrawGraphF(0.0f, background_y, background_img, TRUE);
-		DrawFormatString(0, 50, 0x000000, " background_y:%d", background_y);
+		DrawFormatString(0, 50, 0x000000, " background_y:%d", amount_y);
 		
 		if (bard != NULL)
 		{
 			DrawFormatString(0, 70, 0x000000, " bard_y:%f", bard->GetLocation().x);
 			bard->Draw();
 		}
-		DrawExtendGraph(bubble_location.x-30.0f,480.0f -up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
-		DrawFormatString(0, 100, 0x000000, "score: %f", (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2));
+		DrawExtendGraphF(bubble_location.x-30.0f,480.0f -up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
+		//DrawFormatString(0, 100, 0x000000, "score: %f", (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2));
 
 		break;
 	case GameState::result:
@@ -251,20 +258,35 @@ void GameMainScene::Draw() const
 		DrawFormatString(180, 420, 0x000000, "RETRY");
 		DrawBox(390, 400, 490, 450, right_button_color, TRUE);
 		DrawFormatString(420, 420, 0x000000, "TITLE");
-		DrawExtendGraph(bubble_location.x - 30.0f, 480.0f - up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
+		DrawExtendGraphF(bubble_location.x - 30.0f, 480.0f - up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
 
 		//ランキング
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
 		DrawBox(30, 30, 610, 390, 0xffffff, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND,255);
 
-		DrawStringToHandle(175, 70, "ScoreRanking", 0x000000, ranking_font, 0xffffff);
-		DrawStringToHandle(85, 350, "MyScore", 0x000000, ranking_font, 0xffffff);
+		// 制限時間の描画
+		char buf_score[100];
+		sprintf_s(buf_score, "%3d", (int)score);
+		DrawStringToHandle(190, 70, "MyScore", 0x000000, ranking_font);
+		DrawStringToHandle(350, 70, buf_score, 0x000000, ranking_font);
+
+		DrawStringToHandle(190, 150, "ScoreRanking", 0x000000, ranking_font);
+
+		DrawStringToHandle(230, 250, "No.1", 0x000000, ranking_font);
+		DrawStringToHandle(230, 300, "No.2", 0x000000, ranking_font);
+		DrawStringToHandle(230, 350, "No.3", 0x000000, ranking_font);
 
 		for (int i = 0; i < RANKING_DATA; i++)
 		{
-			DrawFormatString(300 + i * 30, 100, 0xffffff, "%d", ranking_data->GetScore(i));
+			// 制限時間の描画
+			char buf_rank[100];
+			sprintf_s(buf_rank, "%3d", (int)ranking_data->GetScore(i));
+			DrawStringToHandle(350, 250+(i*50), buf_rank, 0x000000, ranking_font);
+
+			//DrawFormatString(300 + i * 30, 100, 0xffffff, "%d", ranking_data->GetScore(i));
 		}
+
 
 		DrawFormatString(300, 130, 0xffffff, "myscore : %f", score);
 
@@ -395,35 +417,24 @@ void GameMainScene::InFlyUpdate()
 		bubble_num = 0;
 	}
 
-	/*if (background_y < -(1640 - bubble_height))
+	if (background_y < -(1640.0f - bubble_height))
 	{
-		background_y += 10.0f;
-
-		if (background_y > 0.0f)
+		if (background_y < -149.0f)
 		{
-			background_y = 0.0f;
+			background_y += 10.0f;
 		}
-	}*/
-
-	if(background_y < 0.0f)
-	{
-		background_y += 10.0f;
-
-		if (background_y > 0.0f)
-		{
-			background_y = 0.0f;
-		}
+		
+		amount_y += 50;
 	}
 
-	if (hit_num_max == 0 && background_y > -1300.0f)
-	{
-		game_state = GameState::result;
-	}
-
-	if (hit_num_max != 0 && bard == NULL)
+	if (amount_y % 100 == 0 && bard == NULL && hit_num < 5)
 	{
 		bard = new Bard(hit_num);
-		hit_num++;
+
+		if (hit_num < 4)
+		{
+			hit_num++;
+		}
 	}
 	else if(bard != NULL)
 	{
@@ -434,7 +445,7 @@ void GameMainScene::InFlyUpdate()
 			delete bard;
 			bard = NULL;
 
-			if (hit_num >= hit_num_max)
+			if (background_y >= -(1640 - bubble_height) || hit_num >= 4 )
 			{
 				game_state = GameState::result;
 
@@ -478,7 +489,7 @@ void GameMainScene::InGameResultUpdate()
 void GameMainScene::ColaBubbleUpdate()
 {
 	//高さ　（振った回数×２）＋（bonus＊２）*-10
-	int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2)*-10;
+	//int score_height = (bar->GetCntBarShake() * 2) + (bar->GetSecondBonus() * 2)*-10;
 
 
 	if (player->GetColaNum() >= 2)
@@ -493,8 +504,7 @@ void GameMainScene::ColaBubbleUpdate()
 			std::vector<int> tmp;
 			tmp = resource->GetImages("Resource/Images/GameMain/background2.png");
 			background_img = tmp[0];*/
-			/*bubble_height = bar->GetCntBarShake() * 30.0f;*/
-			SetHitNumMax();
+			bubble_height = bar->GetCntBarShake() * 50.0f;
 			ranking_data->SetRankingData((int)score);//スコアをランキングに
 			game_state = GameState::in_fly;
 			bar->Finalize();
@@ -653,33 +663,5 @@ void GameMainScene::fadeUpdate()
 			fade_alpha = 255;
 			fade_mode = 1;
 		}
-	}
-}
-
-void GameMainScene::SetHitNumMax()
-{
-	if (bar->GetCntBarShake() >= 45.0f)
-	{
-		hit_num_max = 5;
-	}
-	else if (bar->GetCntBarShake() >= 35.0f)
-	{
-		hit_num_max = 4;
-	}
-	else if (bar->GetCntBarShake() >= 25.0f)
-	{
-		hit_num_max = 3;
-	}
-	else if (bar->GetCntBarShake() >= 15.0f)
-	{
-		hit_num_max = 2;
-	}
-	else if (bar->GetCntBarShake() >= 5.0f)
-	{
-		hit_num_max = 1;
-	}
-	else
-	{
-		hit_num_max = 0;
 	}
 }
