@@ -141,6 +141,8 @@ void GameMainScene::Initialize()
 
 	bubble_height = 0.0f;
 
+	cloud->Initialize();
+
 }
 
 void GameMainScene::Update()
