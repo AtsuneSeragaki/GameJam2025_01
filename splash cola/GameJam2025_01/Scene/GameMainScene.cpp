@@ -252,15 +252,26 @@ void GameMainScene::Draw() const
 
 		// 制限時間の描画
 		char buf_score[100];
-		sprintf_s(buf_score, "%2d", (int)score);
-		DrawStringToHandle(175, 70, "ScoreRanking", 0x000000, ranking_font);
-		DrawStringToHandle(85, 350, "MyScore", 0x000000, ranking_font);
-		DrawStringToHandle(250, 350, buf_score, 0x000000, ranking_font);
+		sprintf_s(buf_score, "%3d", (int)score);
+		DrawStringToHandle(190, 70, "MyScore", 0x000000, ranking_font);
+		DrawStringToHandle(350, 70, buf_score, 0x000000, ranking_font);
+
+		DrawStringToHandle(190, 150, "ScoreRanking", 0x000000, ranking_font);
+
+		DrawStringToHandle(230, 250, "No.1", 0x000000, ranking_font);
+		DrawStringToHandle(230, 300, "No.2", 0x000000, ranking_font);
+		DrawStringToHandle(230, 350, "No.3", 0x000000, ranking_font);
 
 		for (int i = 0; i < RANKING_DATA; i++)
 		{
-			DrawFormatString(300 + i * 30, 100, 0xffffff, "%d", ranking_data->GetScore(i));
+			// 制限時間の描画
+			char buf_rank[100];
+			sprintf_s(buf_rank, "%3d", (int)ranking_data->GetScore(i));
+			DrawStringToHandle(350, 250+(i*50), buf_rank, 0x000000, ranking_font);
+
+			//DrawFormatString(300 + i * 30, 100, 0xffffff, "%d", ranking_data->GetScore(i));
 		}
+
 
 		DrawFormatString(300, 130, 0xffffff, "myscore : %f", score);
 
