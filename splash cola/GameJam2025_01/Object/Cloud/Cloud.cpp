@@ -11,7 +11,8 @@ Cloud::Cloud()
 	std::vector<int> tmp;
 	tmp = resource->GetImages("Resource/Images/GameMain/cloud.png");
 	cloud_img = tmp[0];
-
+	speed =15;
+	gMileage = 0;
 }
 
 Cloud::~Cloud()
@@ -20,10 +21,17 @@ Cloud::~Cloud()
 
 void Cloud::Update()
 {
+	gMileage += speed;
 }
 
 void Cloud::Draw() const
 {
+	DrawGraph(0, gMileage % 480 - 480, cloud_img, TRUE);
+	DrawGraph(0, gMileage % 480, cloud_img, TRUE);
+
+	DrawGraph(540, gMileage % 480 - 480, cloud_img, TRUE);
+	DrawGraph(540, gMileage % 480, cloud_img, TRUE);
+
 }
 
 void Cloud::Initialize()
