@@ -158,6 +158,8 @@ void GameMainScene::Initialize()
 	mouse_img_pos_y = 110;
 
 	mouse_up = false;
+	cloud->Initialize();
+
 }
 
 void GameMainScene::Update()

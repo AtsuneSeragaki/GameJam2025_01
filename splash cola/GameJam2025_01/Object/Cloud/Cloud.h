@@ -3,9 +3,8 @@
 class Cloud
 {
 private:
-	Vector2D location;
-	Vector2D move;
 	int cloud_img;
+	int star_img;
 	int speed;
 	int gMileage;
 
