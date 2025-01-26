@@ -7,7 +7,7 @@
 
 #include "../Utility/ResourceManager.h"
 #include "../Utility/InputManager.h"
-#include "../Utility/ResourceManager.h"
+#include "../Object/Ranking/RankingData.h"
 #include <vector>
 
 GameMainScene::GameMainScene()
@@ -28,6 +28,9 @@ GameMainScene::GameMainScene()
 	bar = new Bar;
 	player = new Player();
 	bard = NULL;
+
+	ranking_data = new RankingData();
+	ranking_data->Initialize();
 	
 	ResourceManager* resource = ResourceManager::GetInstance();
 	std::vector<int> tmp;
@@ -56,6 +59,7 @@ GameMainScene::GameMainScene()
 	start_font = CreateFontToHandle(NULL, 180, 9, DX_FONTTYPE_EDGE);
 	count_down_font = CreateFontToHandle(NULL, 300, 9, DX_FONTTYPE_EDGE);
 	timer_font = CreateFontToHandle(NULL, 20, 9);
+	ranking_font = CreateFontToHandle(NULL, 40,9);
 
 	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
 	for (int i = 0; i <= 1; i++)
@@ -89,12 +93,14 @@ GameMainScene::~GameMainScene()
 	delete bar;
 	delete player;
 	delete bard;
+	delete ranking_data;
 
 	// 作成したフォントデータを削除する
 	DeleteFontToHandle(explanation_font);
 	DeleteFontToHandle(start_font);
 	DeleteFontToHandle(count_down_font);
 	DeleteFontToHandle(timer_font);
+	DeleteFontToHandle(ranking_font);
 }
 
 // 初期化処理
@@ -237,6 +243,15 @@ void GameMainScene::Draw() const
 		DrawFormatString(180, 420, 0x000000, "RETRY");
 		DrawBox(390, 400, 490, 450, right_button_color, TRUE);
 		DrawFormatString(420, 420, 0x000000, "TITLE");
+		DrawExtendGraph(bubble_location.x - 30.0f, 480.0f - up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
+
+		//ランキング
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 100);
+		DrawBox(30, 30, 610, 390, 0xffffff, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND,255);
+
+		DrawStringToHandle(175, 70, "ScoreRanking", 0x000000, ranking_font, 0xffffff);
+		DrawStringToHandle(85, 350, "MyScore", 0x000000, ranking_font, 0xffffff);
 
 		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
 
@@ -408,6 +423,16 @@ void GameMainScene::InGameResultUpdate()
 
 	// タイトルボタンの更新処理
 	TitleButtonUpdate();
+
+	if (bubble_cnt++ > 10)
+	{
+		bubble_num = 1;
+		bubble_cnt = 0;
+	}
+	else if (bubble_cnt > 5)
+	{
+		bubble_num = 0;
+	}
 }
 
 void GameMainScene::ColaBubbleUpdate()
@@ -429,6 +454,7 @@ void GameMainScene::ColaBubbleUpdate()
 			tmp = resource->GetImages("Resource/Images/GameMain/background2.png");
 			background_img = tmp[0];*/
 			bubble_height = bar->GetCntBarShake() * 50.0f;
+			ranking_data->SetRankingData(score);//スコアをランキングに
 			game_state = GameState::in_fly;
 			bar->Finalize();
 		}

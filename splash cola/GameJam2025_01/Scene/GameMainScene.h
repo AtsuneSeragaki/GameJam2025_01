@@ -33,6 +33,8 @@ private:
 
 	class Player* player; // プレイヤー
 
+	class RankingData* ranking_data;//ランキングデータ
+
 	int background_img;  // 背景画像
 
 	float background_y; // 背景Y座標
@@ -57,6 +59,7 @@ private:
 	int start_font;				// スタートのフォント
 	int count_down_font;		// カウントダウンのフォント
 	int timer_font;				// 制限時間のフォント
+	int ranking_font;			//ランキングのフォント
 
 	int pocket_sound_image;		// ポケットサウンドのクレジット表記画像
 	int total_fps_count;		// ゲームプレイ中のfpsの合計
