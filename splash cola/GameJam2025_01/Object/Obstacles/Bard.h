@@ -11,6 +11,7 @@ private:
 	bool is_hit;        // 泡に当たったか？
 	double extrate;     // 画像の拡大率
 	bool left_flg;      // 左に飛んでいくか？
+	int num;            // 表示する障害物の番号
 
 public:
 	// コンストラクタ
