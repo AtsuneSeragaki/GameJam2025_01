@@ -211,6 +211,12 @@
     <Media Include="Resource\Sounds\SE\終了時\ジャン！.mp3" />
     <Media Include="Resource\Sounds\SE\終了時\テッテレー.mp3" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IconFile\Icon.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IconFile\RCa20428" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

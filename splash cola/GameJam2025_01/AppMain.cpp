@@ -14,6 +14,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	SetGraphMode(640, 480, 32);	//画面サイズ指定
 
+	//アイコンの設定
+	SetWindowIconID(101);
+
 
 	if (DxLib_Init() == -1)
 
