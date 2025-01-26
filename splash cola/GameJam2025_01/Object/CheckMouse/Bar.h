@@ -28,7 +28,7 @@ public:
 	void Update();
 	void Draw() const;
 	float GetCntBarShake() { return cnt_bar_shake; }
-	float GetSecondBonus() { return second_bonus; }
+	int GetSecondBonus() { return second_bonus; }
 
 	// 星エフェクトの生成
 	void CreateStar(Vector2D center);
