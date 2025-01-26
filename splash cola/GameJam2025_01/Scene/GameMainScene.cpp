@@ -184,7 +184,6 @@ void GameMainScene::Draw() const
 		// プレイヤー描画
 		player->Draw();
 
-		//DrawStringToHandle(20, 20, "Shake the cola!!!", 0x000000, explanation_font);
 		DrawStringToHandle(20, 20, "SHAKE THE SODA!!!", 0x000000, explanation_font);
 
 		if (start_flg == false)
