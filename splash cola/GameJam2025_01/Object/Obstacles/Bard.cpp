@@ -105,7 +105,7 @@ void Bard::Update()
 			}
 			else
 			{
-				location.y += 10.0f;
+				location.y += 15.0f;
 			}
 			break;
 

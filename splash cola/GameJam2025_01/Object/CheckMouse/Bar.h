@@ -16,7 +16,8 @@ private:
 
 	int touch_se;		// バーに触れた時のSE
 
-	std::vector<class Star*> stars;
+	std::vector<class Star*> stars;		// 星エフェクト
+	int star_se;						// 星エフェクト生成SE
 
 public:
 	Bar();

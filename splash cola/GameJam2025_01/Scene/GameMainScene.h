@@ -76,7 +76,8 @@ private:
 	int fade_mode;		// フェードの動き　0：フェードなし　1：明るくなる　2：暗くなる
 	int fade_alpha;		// フェードのアルファ値
 
-	int hit_num; // 障害物に当たった回数
+	int hit_num;      // 障害物に当たった回数
+	int hit_num_max;  // 障害物の最大数
 
 public:
 	GameMainScene();
@@ -103,5 +104,6 @@ private:
 	void EndButtonUpdate();			// エンドボタンの更新処理
 
 	void fadeUpdate();				// フェード更新処理
+	void SetHitNumMax();            // 回数に応じて当たる障害物の最大数を決める
 };
 
