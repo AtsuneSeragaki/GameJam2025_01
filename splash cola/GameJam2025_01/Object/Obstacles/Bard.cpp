@@ -57,6 +57,12 @@ Bard::Bard(int num)
 	}
 	
 	img = tmp[0];
+
+	// 音源データ格納
+	attack_se = resource->GetSounds("Resource/Sounds/SE/attack.mp3");
+
+	// 音量調整
+	ChangeVolumeSoundMem(255, attack_se);
 }
 
 Bard::~Bard()
@@ -79,6 +85,12 @@ void Bard::Update()
 
 		location.y -= 3.0f;
 		angle += 1.0f;
+
+		if (CheckSoundMem(attack_se) == FALSE)
+		{
+			// 飛んでいくSE再生
+			PlaySoundMem(attack_se, DX_PLAYTYPE_BACK);
+		}
 	}
 	else
 	{// それ以外

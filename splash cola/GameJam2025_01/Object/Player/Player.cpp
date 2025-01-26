@@ -31,7 +31,7 @@ Player::Player()
 
 	// 音源データ格納
 	open_can_se = resource->GetSounds("Resource/Sounds/SE/open.mp3");
-	up_se = resource->GetSounds("Resource/Sounds/SE/up01.mp3");
+	up_se = resource->GetSounds("Resource/Sounds/SE/up.mp3");
 
 	// 音量調整
 	ChangeVolumeSoundMem(255, open_can_se);
