@@ -16,9 +16,11 @@ Bar::Bar()
 
 	ResourceManager* resource = ResourceManager::GetInstance();
 	touch_se = resource->GetSounds("Resource/Sounds/SE/touch.mp3");
+	star_se = resource->GetSounds("Resource/Sounds/SE/star.mp3");
 
 	// 音量調整
 	ChangeVolumeSoundMem(150, touch_se);
+	ChangeVolumeSoundMem(150, star_se);
 }
 
 Bar::~Bar()
@@ -59,6 +61,9 @@ void Bar::Update()
 		{
 			second_bonus += 1; 
 
+			// 星エフェクト生成SE
+			PlaySoundMem(star_se, DX_PLAYTYPE_BACK, TRUE);
+
 			int num = rand() % 4;
 			Vector2D star_center(60.0f * (float)num + 300.0f, 30.0f);
 			// 星の生成
@@ -78,6 +83,9 @@ void Bar::Update()
 		if (second_cnt < 0.6f)
 		{
 			second_bonus += 1; 
+
+			// 星エフェクト生成SE
+			PlaySoundMem(star_se, DX_PLAYTYPE_BACK, TRUE);
 
 			int num = rand() % 4;
 			Vector2D star_center(60.0f * (float)num + 220.0f, 450.0f);
