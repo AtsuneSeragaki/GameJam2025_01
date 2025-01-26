@@ -12,6 +12,7 @@ private:
 	double extrate;     // 画像の拡大率
 	bool left_flg;      // 左に飛んでいくか？
 	int num;            // 表示する障害物の番号
+	int attack_se;		// 飛んでいく時のSE
 
 public:
 	// コンストラクタ

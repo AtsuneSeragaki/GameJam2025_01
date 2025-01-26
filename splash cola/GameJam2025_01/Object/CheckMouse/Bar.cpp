@@ -91,12 +91,6 @@ void Bar::Update()
 	}
 
 	second_cnt += 0.1f;
-
-	for (Star* star : stars)
-	{
-		// 星の更新
-		star->Update();
-	}
 }
 
 void Bar::Draw() const
@@ -140,5 +134,14 @@ void Bar::CreateStar(Vector2D center)
 
 		// 星を作成し、リストに追加
 		stars.push_back(new Star(center, direction));
+	}
+}
+
+void Bar::StarUpdate()
+{
+	for (Star* star : stars)
+	{
+		// 星の更新
+		star->Update();
 	}
 }
