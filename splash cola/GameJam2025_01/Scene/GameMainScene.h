@@ -45,6 +45,7 @@ private:
 	int end_se;					// ゲーム終了SE
 	int result_se;				// リザルト発表SE
 	int high_score_se;			// ランキング入りSE
+	int decision_se;			// 決定SE
 
 	bool play_count_down_se;	// スタートのカウントダウンSE再生フラグ
 

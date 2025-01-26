@@ -47,6 +47,7 @@ GameMainScene::GameMainScene()
 	end_se = resource->GetSounds("Resource/Sounds/SE/open.mp3");
 	result_se = resource->GetSounds("Resource/Sounds/SE/result.mp3");
 	high_score_se = resource->GetSounds("Resource/Sounds/SE/high_score.mp3");
+	decision_se = resource->GetSounds("Resource/Sounds/SE/decision.mp3");
 
 	// 音量調整
 	ChangeVolumeSoundMem(100, in_game_bgm);
@@ -55,6 +56,7 @@ GameMainScene::GameMainScene()
 	ChangeVolumeSoundMem(255, end_se);
 	ChangeVolumeSoundMem(255, result_se);
 	ChangeVolumeSoundMem(255, high_score_se);
+	ChangeVolumeSoundMem(255, decision_se);
 
 	play_count_down_se = true;
 
@@ -511,6 +513,9 @@ void GameMainScene::RetryButtonUpdate()
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
+			// 決定SEの再生
+			PlaySoundMem(decision_se, DX_PLAYTYPE_BACK);
+
 			// フェードで暗くする
 			fade_mode = 2;
 		}
@@ -535,6 +540,9 @@ void GameMainScene::TitleButtonUpdate()
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
+			// 決定SEの再生
+			PlaySoundMem(decision_se, DX_PLAYTYPE_BACK);
+
 			start_flg = false;
 			// フェードで暗くする
 			fade_mode = 2;
@@ -584,6 +592,9 @@ void GameMainScene::EndButtonUpdate()
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
+			// 決定SEの再生
+			PlaySoundMem(decision_se, DX_PLAYTYPE_BACK);
+
 			// ゲーム終了
 			end_flg = true;
 		}
