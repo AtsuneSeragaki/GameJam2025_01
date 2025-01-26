@@ -166,5 +166,4 @@ void Bard::Draw() const
 {
 	// 障害物の描画
 	DrawRotaGraph2F(location.x, location.y, 16.0f,16.0f,extrate, angle, img, TRUE, 0, 0);
-	DrawFormatString(0, 150, 0x000000, "%f", extrate);
 }

@@ -219,7 +219,7 @@ void GameMainScene::Draw() const
 		break;
 
 	case GameState::in_game:
-		DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
+		//DrawFormatString(0, 50, 0x000000, " background_y:%f", background_y);
 
 		// 制限時間のバー
 		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 128);
@@ -245,14 +245,11 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::in_fly:
 		DrawGraphF(0.0f, background_y, background_img, TRUE);
-		DrawFormatString(0, 50, 0x000000, " background_y:%d", amount_y);
-
+		//DrawFormatString(0, 50, 0x000000, " background_y:%d", amount_y);
 		cloud->Draw();
-
-		
 		if (bard != NULL)
 		{
-			DrawFormatString(0, 70, 0x000000, " bard_y:%f", bard->GetLocation().x);
+			//DrawFormatString(0, 70, 0x000000, " bard_y:%f", bard->GetLocation().x);
 			bard->Draw();
 		}
 		DrawExtendGraphF(bubble_location.x-30.0f,480.0f -up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
@@ -297,9 +294,9 @@ void GameMainScene::Draw() const
 		}
 
 
-		DrawFormatString(300, 130, 0xffffff, "myscore : %f", score);
+		/*DrawFormatString(300, 130, 0xffffff, "myscore : %f", score);
 
-		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
+		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());*/
 
 		break;
 	}

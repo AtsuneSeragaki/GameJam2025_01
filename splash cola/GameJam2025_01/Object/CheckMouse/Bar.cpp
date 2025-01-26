@@ -103,9 +103,9 @@ void Bar::Update()
 
 void Bar::Draw() const
 {
-	DrawFormatString(0, 40, 0x000000, "shake%f", cnt_bar_shake);
+	/*DrawFormatString(0, 40, 0x000000, "shake%f", cnt_bar_shake);
 	DrawFormatString(0, 60, 0x000000, "cnt%f", second_cnt);
-	DrawFormatString(0, 80, 0x000000, "bonus%d", second_bonus);
+	DrawFormatString(0, 80, 0x000000, "bonus%d", second_bonus);*/
 
 	if (is_upper_hit == true) {
 		DrawBox(0, 20, 640, 40, 0xff0000, TRUE);
