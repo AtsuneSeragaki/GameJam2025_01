@@ -41,7 +41,7 @@ void Cloud::Draw() const
 		DrawGraph(540, gMileage % 480 - 480, star_img, TRUE);
 		DrawGraph(540, gMileage % 480, star_img, TRUE);
 	}
-	DrawFormatString(0, 10, 0xffffff, "%d", gMileage);
+	//DrawFormatString(0, 10, 0xffffff, "%d", gMileage);
 
 }
 
