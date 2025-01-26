@@ -91,6 +91,7 @@ GameMainScene::GameMainScene()
 	fade_alpha = 255;
 
 	hit_num = 0;
+	hit_num_max = 0;
 }
 
 
@@ -125,6 +126,7 @@ void GameMainScene::Initialize()
 	total_fps_count = 0;
 
 	hit_num = 0;
+	hit_num_max = 0;
 }
 
 void GameMainScene::Update()
@@ -232,7 +234,7 @@ void GameMainScene::Draw() const
 		break;
 	case GameState::in_fly:
 		DrawGraphF(0.0f, background_y, background_img, TRUE);
-		DrawFormatString(0, 50, 0x000000, " background_y:%d", amount_y);
+		DrawFormatString(0, 50, 0x000000, " background_y:%d", background_y);
 		
 		if (bard != NULL)
 		{
@@ -393,24 +395,35 @@ void GameMainScene::InFlyUpdate()
 		bubble_num = 0;
 	}
 
-	if (background_y < -(1640.0f - bubble_height))
+	/*if (background_y < -(1640 - bubble_height))
 	{
-		if (background_y < -149.0f)
+		background_y += 10.0f;
+
+		if (background_y > 0.0f)
 		{
-			background_y += 10.0f;
+			background_y = 0.0f;
 		}
-		
-		amount_y += 50;
+	}*/
+
+	if(background_y < 0.0f)
+	{
+		background_y += 10.0f;
+
+		if (background_y > 0.0f)
+		{
+			background_y = 0.0f;
+		}
 	}
 
-	if (amount_y % 100 == 0 && bard == NULL && hit_num < 5)
+	if (hit_num_max == 0 && background_y > -1300.0f)
+	{
+		game_state = GameState::result;
+	}
+
+	if (hit_num_max != 0 && bard == NULL)
 	{
 		bard = new Bard(hit_num);
-
-		if (hit_num < 4)
-		{
-			hit_num++;
-		}
+		hit_num++;
 	}
 	else if(bard != NULL)
 	{
@@ -421,7 +434,7 @@ void GameMainScene::InFlyUpdate()
 			delete bard;
 			bard = NULL;
 
-			if (background_y >= -(1640 - bubble_height) || hit_num >= 4 )
+			if (hit_num >= hit_num_max)
 			{
 				game_state = GameState::result;
 
@@ -480,7 +493,8 @@ void GameMainScene::ColaBubbleUpdate()
 			std::vector<int> tmp;
 			tmp = resource->GetImages("Resource/Images/GameMain/background2.png");
 			background_img = tmp[0];*/
-			bubble_height = bar->GetCntBarShake() * 50.0f;
+			/*bubble_height = bar->GetCntBarShake() * 30.0f;*/
+			SetHitNumMax();
 			ranking_data->SetRankingData((int)score);//スコアをランキングに
 			game_state = GameState::in_fly;
 			bar->Finalize();
@@ -639,5 +653,33 @@ void GameMainScene::fadeUpdate()
 			fade_alpha = 255;
 			fade_mode = 1;
 		}
+	}
+}
+
+void GameMainScene::SetHitNumMax()
+{
+	if (bar->GetCntBarShake() >= 45.0f)
+	{
+		hit_num_max = 5;
+	}
+	else if (bar->GetCntBarShake() >= 35.0f)
+	{
+		hit_num_max = 4;
+	}
+	else if (bar->GetCntBarShake() >= 25.0f)
+	{
+		hit_num_max = 3;
+	}
+	else if (bar->GetCntBarShake() >= 15.0f)
+	{
+		hit_num_max = 2;
+	}
+	else if (bar->GetCntBarShake() >= 5.0f)
+	{
+		hit_num_max = 1;
+	}
+	else
+	{
+		hit_num_max = 0;
 	}
 }
