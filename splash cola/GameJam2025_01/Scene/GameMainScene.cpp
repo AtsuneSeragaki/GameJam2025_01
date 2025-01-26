@@ -4,6 +4,7 @@
 #include "../Object/CheckMouse/Bar.h"
 #include "../Object/Player/Player.h"
 #include "../Object/Obstacles/Bard.h"
+#include "../Object/Cloud/Cloud.h"
 
 #include "../Utility/ResourceManager.h"
 #include "../Utility/InputManager.h"
@@ -31,6 +32,8 @@ GameMainScene::GameMainScene()
 
 	ranking_data = new RankingData();
 	ranking_data->Initialize();
+
+	cloud = new Cloud();
 	
 	ResourceManager* resource = ResourceManager::GetInstance();
 	std::vector<int> tmp;
@@ -264,7 +267,7 @@ void GameMainScene::Draw() const
 	case GameState::in_fly:
 		DrawGraphF(0.0f, background_y, background_img, TRUE);
 		//DrawFormatString(0, 50, 0x000000, " background_y:%d", amount_y);
-		
+		cloud->Draw();
 		if (bard != NULL)
 		{
 			//DrawFormatString(0, 70, 0x000000, " bard_y:%f", bard->GetLocation().x);
@@ -275,6 +278,8 @@ void GameMainScene::Draw() const
 
 		break;
 	case GameState::result:
+		cloud->Draw();
+
 		// リトライ・タイトルボタンの描画
 		DrawBox(150, 400, 250, 450, left_button_color, TRUE);
 		DrawFormatString(180, 420, 0x000000, "RETRY");
@@ -424,6 +429,8 @@ void GameMainScene::InGameUpdate()
 
 void GameMainScene::InFlyUpdate()
 {
+	cloud->Update();
+
 	if (up_bubble < 350)
 	{
 		up_bubble += 50;

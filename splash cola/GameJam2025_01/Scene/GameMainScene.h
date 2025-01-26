@@ -35,6 +35,8 @@ private:
 
 	class RankingData* ranking_data;//ランキングデータ
 
+	class Cloud* cloud;//雲のスクロール
+
 	int background_img;  // 背景画像
 
 	float background_y; // 背景Y座標

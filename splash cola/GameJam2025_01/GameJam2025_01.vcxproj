@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="Object\Cloud\Cloud.cpp" />
     <ClCompile Include="Object\CheckMouse\Bar.cpp" />
     <ClCompile Include="Object\Obstacles\Bard.cpp" />
     <ClCompile Include="Object\Player\Player.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Utility\Vector2D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Object\Cloud\Cloud.h" />
     <ClInclude Include="Object\CheckMouse\Bar.h" />
     <ClInclude Include="Object\Obstacles\Bard.h" />
     <ClInclude Include="Object\Player\Player.h" />
