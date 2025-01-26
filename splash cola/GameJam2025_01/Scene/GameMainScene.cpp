@@ -45,12 +45,16 @@ GameMainScene::GameMainScene()
 	count_down_se = resource->GetSounds("Resource/Sounds/SE/count_down.mp3");
 	start_se = resource->GetSounds("Resource/Sounds/SE/start.mp3");
 	end_se = resource->GetSounds("Resource/Sounds/SE/open.mp3");
+	result_se = resource->GetSounds("Resource/Sounds/SE/result.mp3");
+	high_score_se = resource->GetSounds("Resource/Sounds/SE/high_score.mp3");
 
 	// 音量調整
 	ChangeVolumeSoundMem(100, in_game_bgm);
 	ChangeVolumeSoundMem(255, count_down_se);
 	ChangeVolumeSoundMem(255, start_se);
 	ChangeVolumeSoundMem(255, end_se);
+	ChangeVolumeSoundMem(255, result_se);
+	ChangeVolumeSoundMem(255, high_score_se);
 
 	play_count_down_se = true;
 
@@ -415,6 +419,17 @@ void GameMainScene::InFlyUpdate()
 			if (background_y >= -(1640 - bubble_height) || hit_num >= 4 )
 			{
 				game_state = GameState::result;
+
+				if ((int)score < ranking_data->GetScore(2))
+				{
+					// リザルト発表SE再生
+					PlaySoundMem(result_se, DX_PLAYTYPE_BACK);
+				}
+				else
+				{
+					// ランキング入りSE再生
+					PlaySoundMem(high_score_se, DX_PLAYTYPE_BACK);
+				}
 			}
 		}
 	}
