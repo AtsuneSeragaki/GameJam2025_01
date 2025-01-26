@@ -31,5 +31,6 @@ public:
 
 	// 星エフェクトの生成
 	void CreateStar(Vector2D center);
+	void StarUpdate();
 };
 

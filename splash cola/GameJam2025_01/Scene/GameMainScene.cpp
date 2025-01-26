@@ -343,6 +343,9 @@ void GameMainScene::InGameUpdate()
 {
 	SetMouseDispFlag(FALSE);		// マウスカーソル非表示
 
+	// バーの星エフェクト更新処理
+	bar->StarUpdate();
+
 	if (timer > 0)
 	{
 		total_fps_count++;
