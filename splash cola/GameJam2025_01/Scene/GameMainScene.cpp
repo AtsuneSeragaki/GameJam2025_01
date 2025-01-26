@@ -41,6 +41,8 @@ GameMainScene::GameMainScene()
 	background_img = tmp[0];
 	tmp = resource->GetImages("Resource/Images/GameMain/pocketsound.png");
 	pocket_sound_image = tmp[0];
+	tmp = resource->GetImages("Resource/Images/GameMain/mouse.png");
+	mouse_img = tmp[0];
 
 	background_y = -1640.0f;
 
@@ -69,6 +71,7 @@ GameMainScene::GameMainScene()
 	count_down_font = CreateFontToHandle(NULL, 300, 9, DX_FONTTYPE_EDGE);
 	timer_font = CreateFontToHandle(NULL, 20, 9);
 	ranking_font = CreateFontToHandle(NULL, 40,9);
+	shake_font = CreateFontToHandle(NULL, 27, 9);
 
 	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
 	for (int i = 0; i <= 1; i++)
@@ -95,6 +98,10 @@ GameMainScene::GameMainScene()
 
 	hit_num = 0;
 	hit_num_max = 0;
+
+	mouse_img_pos_y = 110;
+
+	mouse_up = false;
 }
 
 
@@ -111,6 +118,7 @@ GameMainScene::~GameMainScene()
 	DeleteFontToHandle(count_down_font);
 	DeleteFontToHandle(timer_font);
 	DeleteFontToHandle(ranking_font);
+	DeleteFontToHandle(shake_font);
 }
 
 // 初期化処理
@@ -141,6 +149,9 @@ void GameMainScene::Initialize()
 
 	bubble_height = 0.0f;
 
+	mouse_img_pos_y = 110;
+
+	mouse_up = false;
 	cloud->Initialize();
 
 }
@@ -236,6 +247,15 @@ void GameMainScene::Draw() const
 		DrawStringToHandle(5, 461, buf, 0x000000, timer_font);
 
 		bar->Draw();
+
+		SetDrawBlendMode(DX_BLENDMODE_ALPHA, 150);
+		DrawBox(20, 60, 170, 210, 0xffffff, TRUE);
+		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
+
+		DrawStringToHandle(55, 75, "SHAKE!", 0x000000, shake_font);
+
+		DrawGraph(75, mouse_img_pos_y, mouse_img, TRUE);
+
 		if (timer > 0) {
 			player->Draw();
 		}
@@ -244,6 +264,7 @@ void GameMainScene::Draw() const
 			DrawExtendGraphF(bubble_location.x, bubble_location.y, 360.0f, 180.0f, bubble_img[bubble_num], TRUE);
 			player->ResultDraw();
 		}
+
 		break;
 	case GameState::in_fly:
 		DrawGraphF(0.0f, background_y, background_img, TRUE);
@@ -404,7 +425,7 @@ void GameMainScene::InGameUpdate()
 
 	bar->Update();
 	player->Update();
-
+	MouseAnim();
 
 }
 
@@ -703,5 +724,29 @@ void GameMainScene::SetHitNumMax()
 	else
 	{
 		hit_num_max = 0;
+	}
+}
+
+void GameMainScene::MouseAnim()
+{
+	if (mouse_up == true)
+	{
+		mouse_img_pos_y -= 2;
+
+		if (mouse_img_pos_y <= 110)
+		{
+			mouse_img_pos_y = 110;
+			mouse_up = false;
+		}
+	}
+	else
+	{
+		mouse_img_pos_y += 2;
+
+		if (mouse_img_pos_y >= 135)
+		{
+			mouse_img_pos_y = 135;
+			mouse_up = true;
+		}
 	}
 }

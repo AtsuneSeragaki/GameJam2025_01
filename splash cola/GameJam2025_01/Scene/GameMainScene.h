@@ -81,6 +81,13 @@ private:
 	int hit_num;      // 障害物に当たった回数
 	int hit_num_max;  // 障害物の最大数
 
+	int mouse_img;    // マウス画像
+	int mouse_img_pos_y; // マウス画像のY座標
+
+	int shake_font;  // shakeのフォント
+
+	bool mouse_up;   // マウスを上に動かすか？(アニメーション)
+
 public:
 	GameMainScene();
 	~GameMainScene();
@@ -107,5 +114,7 @@ private:
 
 	void fadeUpdate();				// フェード更新処理
 	void SetHitNumMax();            // 回数に応じて当たる障害物の最大数を決める
+
+	void MouseAnim(); // マウスの操作説明アニメーション
 };
 
