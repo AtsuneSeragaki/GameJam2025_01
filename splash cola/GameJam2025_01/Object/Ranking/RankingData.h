@@ -27,4 +27,6 @@ public:
 
 	// データ入れ替え処理
 	void SortData();
+
+	int GetScore(int num) { return score[num]; }
 };
