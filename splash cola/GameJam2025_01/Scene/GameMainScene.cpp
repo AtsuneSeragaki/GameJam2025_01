@@ -15,6 +15,7 @@ GameMainScene::GameMainScene()
 {
 	game_state = GameState::start;
 
+
 	start_flg = false;
 
 	fps_count = 0;
@@ -66,12 +67,15 @@ GameMainScene::GameMainScene()
 	play_count_down_se = true;
 
 	// フォント作成
-	explanation_font = CreateFontToHandle(NULL, 70, 9);
-	start_font = CreateFontToHandle(NULL, 180, 9, DX_FONTTYPE_EDGE);
-	count_down_font = CreateFontToHandle(NULL, 300, 9, DX_FONTTYPE_EDGE);
-	timer_font = CreateFontToHandle(NULL, 20, 9);
-	ranking_font = CreateFontToHandle(NULL, 40,9);
-	shake_font = CreateFontToHandle(NULL, 27, 9);
+	explanation_font = CreateFontToHandle("Guanine", 62, 9, DX_FONTTYPE_ANTIALIASING);
+	start_font = CreateFontToHandle("Guanine", 160, 9, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	count_down_font = CreateFontToHandle("Guanine", 290, 9, DX_FONTTYPE_ANTIALIASING_EDGE_4X4);
+	timer_font = CreateFontToHandle("Guanine", 20, 9, DX_FONTTYPE_ANTIALIASING);
+	ranking_font = CreateFontToHandle("Guanine", 55,9, DX_FONTTYPE_ANTIALIASING);
+	ranking_font2 = CreateFontToHandle("Guanine", 40, 9, DX_FONTTYPE_ANTIALIASING);
+	button_font = CreateFontToHandle("Guanine", 25, 9, DX_FONTTYPE_ANTIALIASING);
+	shake_font = CreateFontToHandle("Guanine", 30, 9, DX_FONTTYPE_ANTIALIASING);
+	name_font = CreateFontToHandle("Guanine", 17, 9, DX_FONTTYPE_ANTIALIASING);
 
 	tmp = resource->GetImages("Resource/Cola/Geyser.png", 2, 2, 1, 64, 128);
 	for (int i = 0; i <= 1; i++)
@@ -118,6 +122,8 @@ GameMainScene::~GameMainScene()
 	DeleteFontToHandle(count_down_font);
 	DeleteFontToHandle(timer_font);
 	DeleteFontToHandle(ranking_font);
+	DeleteFontToHandle(ranking_font2);
+	DeleteFontToHandle(button_font);
 	DeleteFontToHandle(shake_font);
 }
 
@@ -204,13 +210,16 @@ void GameMainScene::Draw() const
 		{
 			// プレイ・エンドボタンの描画
 			DrawBox(150, 400, 250, 450, left_button_color, TRUE);
-			DrawFormatString(180, 420, 0x000000, "PLAY");
+			//DrawFormatString(180, 420, 0x000000, "PLAY");
+			DrawStringToHandle(170, 412, "PLAY", 0x000000, button_font);
 			DrawBox(390, 400, 490, 450, right_button_color, TRUE);
-			DrawFormatString(425, 420, 0x000000, "END");
+			//DrawFormatString(425, 420, 0x000000, "END");
+			DrawStringToHandle(417, 412, "END", 0x000000, button_font);
 
 			// クレジット
-			DrawFormatString(380, 460, 0x000000, "BGM/SE  MusMus /");
-			DrawRotaGraph(580, 467, 0.2, 0.0, pocket_sound_image, TRUE);
+			//DrawFormatString(380, 460, 0x000000, "BGM/SE  MusMus /");
+			DrawStringToHandle(373, 460, "BGM/SE  MusMus /", 0x000000, name_font);
+			DrawRotaGraph(583, 469, 0.2, 0.0, pocket_sound_image, TRUE);
 		}
 		else
 		{
@@ -220,7 +229,7 @@ void GameMainScene::Draw() const
 				// 文字列に変換
 				char buf[100];
 				sprintf_s(buf, "%d", start_count);
-				DrawStringToHandle(250, 100, buf, 0x000000, count_down_font, 0xffffff);
+				DrawStringToHandle(230, 100, buf, 0x000000, count_down_font, 0xffffff);
 			}
 			else
 			{
@@ -250,7 +259,7 @@ void GameMainScene::Draw() const
 		DrawBox(20, 60, 170, 210, 0xffffff, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 255);
 
-		DrawStringToHandle(55, 75, "SHAKE!", 0x000000, shake_font);
+		DrawStringToHandle(38, 75, "SHAKE!", 0x000000, shake_font);
 
 		DrawGraph(75, mouse_img_pos_y, mouse_img, TRUE);
 
@@ -282,9 +291,11 @@ void GameMainScene::Draw() const
 
 		// リトライ・タイトルボタンの描画
 		DrawBox(150, 400, 250, 450, left_button_color, TRUE);
-		DrawFormatString(180, 420, 0x000000, "RETRY");
+		//DrawFormatString(180, 420, 0x000000, "RETRY");
+		DrawStringToHandle(163, 412, "RETRY", 0x000000, button_font);
 		DrawBox(390, 400, 490, 450, right_button_color, TRUE);
-		DrawFormatString(420, 420, 0x000000, "TITLE");
+		//DrawFormatString(420, 420, 0x000000, "TITLE");
+		DrawStringToHandle(408, 412, "TITLE", 0x000000, button_font);
 		DrawExtendGraphF(bubble_location.x - 30.0f, 480.0f - up_bubble, 390.0f, 480.0f, bubble_img[bubble_num], TRUE);
 
 		//ランキング
@@ -295,21 +306,40 @@ void GameMainScene::Draw() const
 		// 制限時間の描画
 		char buf_score[100];
 		sprintf_s(buf_score, "%3d", (int)score);
-		DrawStringToHandle(190, 70, "MyScore", 0x000000, ranking_font);
-		DrawStringToHandle(350, 70, buf_score, 0x000000, ranking_font);
+		DrawStringToHandle(160, 55, "MyScore", 0x000000, ranking_font);
+		DrawStringToHandle(390, 55, buf_score, 0x000000, ranking_font);
 
-		DrawStringToHandle(190, 150, "ScoreRanking", 0x000000, ranking_font);
+		DrawBox(130, 120, 530, 124, 0x000000, TRUE);
 
-		DrawStringToHandle(230, 250, "No.1", 0x000000, ranking_font);
-		DrawStringToHandle(230, 300, "No.2", 0x000000, ranking_font);
-		DrawStringToHandle(230, 350, "No.3", 0x000000, ranking_font);
+		DrawStringToHandle(160, 155, "- ScoreRanking -", 0x000000, ranking_font2);
+
+		DrawStringToHandle(220, 215, "No.1", 0x000000, ranking_font2);
+		DrawStringToHandle(220, 272, "No.2", 0x000000, ranking_font2);
+		DrawStringToHandle(220, 329, "No.3", 0x000000, ranking_font2);
 
 		for (int i = 0; i < RANKING_DATA; i++)
 		{
 			// 制限時間の描画
 			char buf_rank[100];
 			sprintf_s(buf_rank, "%3d", (int)ranking_data->GetScore(i));
-			DrawStringToHandle(350, 250+(i*50), buf_rank, 0x000000, ranking_font);
+			/*switch (i)
+			{
+			case 0:
+				DrawStringToHandle(340, 215 + (i * 55), buf_rank, 0x000000, ranking_font);
+				break;
+
+			case 1:
+				DrawStringToHandle(335, 215 + (i * 55), buf_rank, 0x000000, ranking_font2);
+				break;
+
+			case 2:
+				DrawStringToHandle(330, 215 + (i * 55), buf_rank, 0x000000, ranking_font3);
+				break;
+
+			default:
+				break;
+			}*/
+			DrawStringToHandle(340, 215 + (i * 57), buf_rank, 0x000000, ranking_font2);
 
 			//DrawFormatString(300 + i * 30, 100, 0xffffff, "%d", ranking_data->GetScore(i));
 		}
@@ -564,13 +594,16 @@ void GameMainScene::RetryButtonUpdate()
 	if (input->GetMouseLocation().x > 150.0f && input->GetMouseLocation().x < 250.0f
 		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
 	{
-		left_button_color = 0xff0000;
+		//left_button_color = 0xff0000;
+		left_button_color = 0xd40000;
+
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
 			// 決定SEの再生
 			PlaySoundMem(decision_se, DX_PLAYTYPE_BACK);
 
+			start_flg = true;
 			// フェードで暗くする
 			fade_mode = 2;
 		}
@@ -591,7 +624,8 @@ void GameMainScene::TitleButtonUpdate()
 	if (input->GetMouseLocation().x > 390.0f && input->GetMouseLocation().x < 490.0f
 		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
 	{
-		right_button_color = 0xff0000;
+		//right_button_color = 0xff0000;
+		right_button_color = 0xd40000;
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
@@ -620,7 +654,8 @@ void GameMainScene::PlayButtonUpdate()
 	if (input->GetMouseLocation().x > 150.0f && input->GetMouseLocation().x < 250.0f
 		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
 	{
-		left_button_color = 0xff0000;
+		//left_button_color = 0xff0000;
+		left_button_color = 0xd40000;
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{
@@ -643,7 +678,8 @@ void GameMainScene::EndButtonUpdate()
 	if (input->GetMouseLocation().x > 390.0f && input->GetMouseLocation().x < 490.0f
 		&& input->GetMouseLocation().y > 400.0f && input->GetMouseLocation().y < 450.0f)
 	{
-		right_button_color = 0xff0000;
+		//right_button_color = 0xff0000;
+		right_button_color = 0xd40000;
 
 		if (input->GetMouseInputState(MOUSE_INPUT_LEFT) == eInputState::ePress)
 		{

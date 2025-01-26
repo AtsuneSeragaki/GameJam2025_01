@@ -65,6 +65,9 @@ private:
 	int count_down_font;		// カウントダウンのフォント
 	int timer_font;				// 制限時間のフォント
 	int ranking_font;			//ランキングのフォント
+	int ranking_font2;			//ランキングのフォント
+	int button_font;			//ランキングのフォント
+	int name_font;              // 著作権名のフォント
 
 	int pocket_sound_image;		// ポケットサウンドのクレジット表記画像
 	int total_fps_count;		// ゲームプレイ中のfpsの合計

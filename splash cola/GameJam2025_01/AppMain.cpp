@@ -23,6 +23,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	}
 
+	// ウィンドウズPCに一時的にフォントデータを読み込む(システム終了まで)
+	// NOTE: .ttf→フォントデータ（トゥルータイプフォントの略）
+	AddFontResourceExA("Guanine.otf", FR_PRIVATE, NULL);
+
 	SetMouseDispFlag(TRUE);		// マウスカーソル表示
 	SetDrawScreen(DX_SCREEN_BACK);
 	SceneManager SceneManager(dynamic_cast<AbstractScene*>(new GameMainScene()));
