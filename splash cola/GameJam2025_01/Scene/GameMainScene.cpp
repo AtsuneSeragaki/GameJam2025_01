@@ -250,8 +250,12 @@ void GameMainScene::Draw() const
 		DrawBox(30, 30, 610, 390, 0xffffff, TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND,255);
 
-		DrawStringToHandle(175, 70, "ScoreRanking", 0x000000, ranking_font, 0xffffff);
-		DrawStringToHandle(85, 350, "MyScore", 0x000000, ranking_font, 0xffffff);
+		// 制限時間の描画
+		char buf_score[100];
+		sprintf_s(buf_score, "%2d", (int)score);
+		DrawStringToHandle(175, 70, "ScoreRanking", 0x000000, ranking_font);
+		DrawStringToHandle(85, 350, "MyScore", 0x000000, ranking_font);
+		DrawStringToHandle(250, 350, buf_score, 0x000000, ranking_font);
 
 		DrawFormatString(340, 60, 0xffffff, "Shake%f", bar->GetCntBarShake());
 
